@@ -144,7 +144,7 @@ if (!res.ok) {
                 <div>
                   <label style={labelStyle}>Email</label>
                   <div className="cf-iw" style={inputWrapStyle}>
-                    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                    <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                     <input className="cf-input" style={inputStyle} name="email" type="email" placeholder="you@email.com" value={form.email} onChange={handleChange} required />
                   </div>
                 </div>

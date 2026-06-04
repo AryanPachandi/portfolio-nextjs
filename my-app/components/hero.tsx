@@ -1,6 +1,8 @@
 "use client";
 import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
 import Herotext from "@/components/herotext";
+// import {GithubIcon}  from "lucide-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 
 export default function Hero() {
   return (
@@ -55,7 +57,7 @@ export default function Hero() {
           {/* Buttons */}
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button className="group relative inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-8 text-base font-medium text-black transition-all hover:bg-white/90 hover:scale-105">
-              View Resume
+              Download Resume
               <svg
                 className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                 fill="none"
@@ -70,9 +72,20 @@ export default function Hero() {
                 />
               </svg>
             </button>
-            <button className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30">
+            {/* <button onClick={() =>
+    window.open("https://github.com/AryanPachandi", "_blank")
+  } className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30">
               View Projects
-            </button>
+            </button> */}
+            <a
+  href="https://github.com/AryanPachandi"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30"
+>
+  <IconBrandGithub size={18} />
+  View Projects
+</a>
           </div>
         </div>
 
