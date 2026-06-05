@@ -2,7 +2,7 @@
 
 const Herotext = dynamic(
   () => import("@/components/herotext"),
-  { ssr: false }
+  { ssr: true }
 );
 
 import { IconBrandGithub } from "@tabler/icons-react";
