@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DM_Sans } from "next/font/google";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -11,8 +12,12 @@ const navLinks = [
  
   { label: "Contact", href: "#contact" },
 ];
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+});
+
 export default function Navbar() {
-  const pathname = usePathname();
+
 
   return (
     <>

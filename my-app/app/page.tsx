@@ -5,10 +5,14 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/Navbar";
 import Form from "@/components/from";
 import ContactForm from "@/components/from";
+import LightNavbar from "@/components/LigthNavbar";
+
+import TerminalContact from "@/components/terminal";
 export default function Home() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <LightNavbar />
 
       <Hero />
       
@@ -19,10 +23,7 @@ export default function Home() {
       <section id="work">
         <ProjectsScroll />
       </section>
-
-       <section  id="contact" className="flex min-h-screen items-center justify-center px-6 py-20">
-         <ContactForm />
-       </section>
+      <TerminalContact />
       <Footer />
     </>
   

@@ -1,5 +1,11 @@
 "use client";
 import { ParallaxHeroImages } from "@/components/ui/parallax-hero-images";
+import globeImage from "@/components/utils/about/3d-globe.jpg";
+import hero1Image from "@/components/utils/about/hero-1.jpg";
+import hero2Image from "@/components/utils/about/hero-2.jpg";
+import hero3Image from "@/components/utils/about/hero-3.jpg";
+import heroSectionImage from "@/components/utils/about/hero-section-with-mesh-gradient.jpg";
+import keyboardImage from "@/components/utils/about/keyboard-2.jpg";
 
 export default function Projects() {
   return (
@@ -18,10 +24,10 @@ export default function Projects() {
 }
 
 const images = [
-  "https://assets.aceternity.com/components/hero-section-with-mesh-gradient.webp",
-  "https://assets.aceternity.com/components/3d-globe.webp",
-  "https://assets.aceternity.com/components/keyboard-2.webp",
-  "https://assets.aceternity.com/components/hero-1.webp",
-  "https://assets.aceternity.com/components/hero-2.webp",
-  "https://assets.aceternity.com/components/hero-3.webp",
+  heroSectionImage.src,
+  globeImage.src,
+  keyboardImage.src,
+  hero1Image.src,
+  hero2Image.src,
+  hero3Image.src,
 ];
