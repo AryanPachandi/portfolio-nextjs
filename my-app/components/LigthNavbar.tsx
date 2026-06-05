@@ -56,6 +56,7 @@ export default function Navbar() {
           {/* CTA + Hamburger */}
           <div className={styles.right}>
             <a
+              onClick={() => window.open("/Resume (5).pdf", "_blank")}
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
