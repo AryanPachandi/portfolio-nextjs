@@ -1,8 +1,10 @@
 "use client";
-// import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
-import Herotext from "@/components/herotext";
-// import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
-// import {GithubIcon}  from "lucide-react";
+
+const Herotext = dynamic(
+  () => import("@/components/herotext"),
+  { ssr: false }
+);
+
 import { IconBrandGithub } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -75,7 +77,7 @@ export default function Hero() {
           
           
           </h1> */}
-          <Herotext />
+           {mounted && <Herotext />}
 
           {/* Description */}
           <p className="mx-auto mb-10 max-w-2xl text-base text-white/60 sm:text-xl">

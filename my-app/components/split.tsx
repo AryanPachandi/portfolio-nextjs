@@ -19,7 +19,7 @@ export default function ContactDivider() {
 
       {/* ── Headline ── */}
       <div className="text-center flex flex-col gap-3 max-w-lg">
-        <h2 className="text-[32px] font-medium leading-snug text-neutral-900 dark:text-neutral-100 m-0">
+        <h2 className="text-[45px] font-medium leading-snug text-neutral-900 dark:text-neutral-100 m-0">
           Got a project in mind?
         </h2>
         <p className="text-[15px] text-neutral-500 dark:text-neutral-400 leading-relaxed m-0">
