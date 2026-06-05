@@ -1,11 +1,11 @@
 "use client";
 import { ParallaxHeroImages } from "@/components/ui/parallax-hero-images";
-import globeImage from "@/components/utils/about/3d-globe.webp";
-import hero1Image from "@/components/utils/about/hero-1.webp";
-import hero2Image from "@/components/utils/about/hero-2.webp";
-import hero3Image from "@/components/utils/about/hero-3.webp";
-import heroSectionImage from "@/components/utils/about/hero-section-with-mesh-gradient.webp";
-import keyboardImage from "@/components/utils/about/keyboard-2.webp";
+import globeImage from "@/components/utils/about/3d-globe.jpg";
+import hero1Image from "@/components/utils/about/hero-1.jpg";
+import hero2Image from "@/components/utils/about/hero-2.jpg";
+import hero3Image from "@/components/utils/about/hero-3.jpg";
+import heroSectionImage from "@/components/utils/about/hero-section-with-mesh-gradient.jpg";
+import keyboardImage from "@/components/utils/about/keyboard-2.jpg";
 
 export default function Projects() {
   return (
