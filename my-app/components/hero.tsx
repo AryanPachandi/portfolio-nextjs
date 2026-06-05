@@ -1,44 +1,62 @@
 "use client";
 // import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
 import Herotext from "@/components/herotext";
-import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
+// import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
 // import {GithubIcon}  from "lucide-react";
 import { IconBrandGithub } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
-// const IconBrandGithub = dynamic(
-//   () => import("@tabler/icons-react").then((mod) => mod.IconBrandGithub),
-//   { ssr: false }
-// );
-// const Herotext = dynamic(() => import("@/components/herotext").then((mod) => mod.default), { ssr: false }); 
-// const WebcamPixelGrid = dynamic(
-//   () => import("@/components/ui/webcam-pixel-grid").then((mod) => mod.WebcamPixelGrid),
-//   { ssr: false }
-// );
+import { useEffect, useState } from "react";
+// import dynamic from "next/dynamic";
+
+const WebcamPixelGrid = dynamic(
+  () =>
+    import("@/components/ui/webcam-pixel-grid").then(
+      (mod) => mod.WebcamPixelGrid
+    ),
+  {
+    ssr: false,
+  }
+);
 export default function Hero() {
+ const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
+
     <div className="relative h-screen w-screen bg-black overflow-hidden">
      
 
       {/* Webcam pixel grid background */}
       <div className="absolute inset-0">
-        <WebcamPixelGrid
-          gridCols={60}
-          gridRows={40}
-          maxElevation={50}
-          motionSensitivity={0.25}
-          elevationSmoothing={0.2}
-          colorMode="webcam"
-          backgroundColor="#030303"
-          mirror={true}
-          gapRatio={0.05}
-          invertColors={false}
-          darken={0.6}
-          borderColor="#ffffff"
-          borderOpacity={0.06}
-          className="w-full h-full"
-          onWebcamReady={() => console.log("Webcam ready!")}
-          onWebcamError={(err) => console.error("Webcam error:", err)}
-        />
+      {mounted ? (
+    <WebcamPixelGrid
+      gridCols={60}
+      gridRows={40}
+      maxElevation={50}
+      motionSensitivity={0.25}
+      elevationSmoothing={0.2}
+      colorMode="webcam"
+      backgroundColor="#030303"
+      mirror={true}
+      gapRatio={0.05}
+      invertColors={false}
+      darken={0.6}
+      borderColor="#ffffff"
+      borderOpacity={0.06}
+      className="w-full h-full"
+      onWebcamReady={() => console.log("Webcam ready!")}
+      onWebcamError={(err) => console.error("Webcam error:", err)}
+    />
+  ) : (
+    <div className="w-full h-full bg-black" />
+  )}
       </div>
 
       {/* Gradient overlay for better text readability */}
