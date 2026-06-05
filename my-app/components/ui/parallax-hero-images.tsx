@@ -179,7 +179,7 @@ const ParallaxImage = memo(function ParallaxImage({
         alt=""
         width={400}
         height={300}
-        priority
+        // priority
         // loading="lazy"
         decoding="async"
         className={cn(
