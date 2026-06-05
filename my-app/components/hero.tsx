@@ -1,9 +1,19 @@
 "use client";
-import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
-import Herotext from "@/components/herotext";
-// import {GithubIcon}  from "lucide-react";
-import { IconBrandGithub } from "@tabler/icons-react";
-
+// // import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
+// import Herotext from "@/components/herotext";
+// // import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
+// // import {GithubIcon}  from "lucide-react";
+// import { IconBrandGithub } from "@tabler/icons-react";
+import dynamic from "next/dynamic";
+const IconBrandGithub = dynamic(
+  () => import("@tabler/icons-react").then((mod) => mod.IconBrandGithub),
+  { ssr: false }
+);
+const Herotext = dynamic(() => import("@/components/herotext").then((mod) => mod.default), { ssr: false }); 
+const WebcamPixelGrid = dynamic(
+  () => import("@/components/ui/webcam-pixel-grid").then((mod) => mod.WebcamPixelGrid),
+  { ssr: false }
+);
 export default function Hero() {
   return (
     <div className="relative h-screen w-screen bg-black overflow-hidden">
