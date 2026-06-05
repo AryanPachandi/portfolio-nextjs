@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useMemo, useCallback, memo } from "react";
+import Image from "next/image";
 import {
   motion,
   useMotionValue,
@@ -173,10 +174,13 @@ const ParallaxImage = memo(function ParallaxImage({
         ease: [0.25, 0.1, 0.25, 1],
       }}
     >
-      <img
+      <Image
         src={src}
         alt=""
-        loading="lazy"
+        width={400}
+        height={300}
+        priority
+        // loading="lazy"
         decoding="async"
         className={cn(
           "aspect-4/3 h-20 w-32 rounded-lg object-cover shadow-sm ring-1 ring-black/10 sm:h-40 sm:w-56 md:h-52 md:w-80 dark:ring-white/10",

@@ -188,7 +188,7 @@ useEffect(() => {
       />
 
       <div
-        className="w-full max-w-[640px] mx-auto rounded-xl overflow-hidden border border-[#313244]"
+        className="w-[95vw] sm:w-full max-w-[640px] mx-auto rounded-xl overflow-hidden border border-[#313244]"
         style={{ background: "#010101", fontFamily: "'JetBrains Mono', monospace" }}
         onClick={() => inputRef.current?.focus()}
       >
@@ -200,7 +200,8 @@ useEffect(() => {
           <span className="w-3 h-3 rounded-full bg-[#ff5f57] cursor-pointer" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e] cursor-pointer" />
           <span className="w-3 h-3 rounded-full bg-[#28c840] cursor-pointer" />
-          <span className="flex-1 text-center text-[12px] text-[#6c7086]">
+          {/* flex-1 text-center text-[12px] text-[#6c7086] */}
+          <span className="text-[11px] sm:text-[13px] leading-[1.65] text-[#6c7086]">
             guest@portfolio — bash
           </span>
         </div>
@@ -242,7 +243,8 @@ useEffect(() => {
             onKeyDown={onKeyDown}
             autoComplete="off"
             spellCheck={false}
-            className="flex-1 bg-transparent border-none outline-none text-[13px] text-[#cdd6f4] pl-1.5"
+            // flex-1 bg-transparent border-none outline-none text-[13px] text-[#cdd6f4] pl-1.5
+            className="text-[11px] sm:text-[13px] leading-[1.65] text-[#cdd6f4] bg-transparent border-none outline-none pl-1.5 flex-1"
             style={{ fontFamily: "'JetBrains Mono', monospace", caretColor: "#f5c2e7" }}
           />
         </div>

@@ -212,20 +212,24 @@
 
         /* Tablet: hide status label */
         @media (max-width: 720px) {
-          .status-label { display: none; }
+          .statuslabel {
+            display: inline;
+            font-size: 0.75rem;
+          }
+
           .link { padding: 5px 10px; font-size: 0.82rem; }
         }
 
         /* Mobile: hide desktop links, show hamburger */
         @media (max-width: 560px) {
-          .nav-shell {
+          .navshell {
             top: 10px;
             width: calc(100% - 24px);
             border-radius: 16px;
           }
 
           .links { display: none; }
-          .resume-btn { display: none; }
+          .resumeBtn { display: none; }
           .hamburger { display: flex; }
-          .mobile-menu { display: flex; }
+          .mobileMenu { display: flex; }
         }
