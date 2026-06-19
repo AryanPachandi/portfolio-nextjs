@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import DitherShaderDemo from "@/components/dither-shader-demo";
+import { CldImage } from "next-cloudinary";
 
 export default function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -100,6 +102,8 @@ export default function HeroSection() {
           min-height: 100vh;
           display: flex;
           align-items: center;
+          justify-content: space-between;
+          gap: 3vw;
           padding: 0 6vw;
           overflow: hidden;
         }
@@ -130,12 +134,6 @@ export default function HeroSection() {
           filter: blur(60px);
           pointer-events: none;
           z-index: 0;
-        }
-        .blob-1 {
-          width: 340px; height: 340px;
-          background: radial-gradient(circle, #DDD9FC 0%, transparent 70%);
-          top: 8%; right: 12%;
-          transition: transform 0.18s ease-out;
         }
         .blob-2 {
           width: 200px; height: 200px;
@@ -187,7 +185,8 @@ export default function HeroSection() {
         .hero-content {
           position: relative;
           z-index: 2;
-          max-width: 900px;
+          max-width: 620px;
+          flex-shrink: 1;
           animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
         }
 
@@ -213,7 +212,7 @@ export default function HeroSection() {
         }
 
         .hero-name {
-          font-size: clamp(52px, 9vw, 120px);
+          font-size: clamp(48px, 7.5vw, 96px);
           font-weight: 800;
           letter-spacing: -0.035em;
           line-height: 0.95;
@@ -295,6 +294,41 @@ export default function HeroSection() {
         .btn-secondary:hover {
           color: var(--ink);
           border-color: var(--ink);
+        }
+
+        /* Portrait, right side */
+        .hero-visual {
+          position: relative;
+          z-index: 2;
+          flex-shrink: 0;
+          width: clamp(220px, 28vw, 400px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeUp 0.9s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .portrait-glow {
+          position: absolute;
+          width: 130%;
+          height: 130%;
+          border-radius: 50%;
+          background: radial-gradient(circle, #DDD9FC 0%, transparent 70%);
+          filter: blur(50px);
+          z-index: 0;
+          pointer-events: none;
+          transition: transform 0.18s ease-out;
+        }
+        .portrait-frame {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          aspect-ratio: 450 / 550;
+          transition: transform 0.15s ease-out;
+        }
+        .portrait-img {
+          width: 100% !important;
+          height: 100% !important;
+          display: block;
         }
 
         /* Social strip */
@@ -412,7 +446,14 @@ export default function HeroSection() {
 
         @media (max-width: 768px) {
           .social-strip, .scroll-cue, .stats-row { display: none; }
-          .hero { padding: 0 6vw; justify-content: flex-start; }
+          .hero {
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 7rem 6vw 3rem;
+            gap: 2.5rem;
+          }
+          .hero-content { max-width: 100%; }
+          .hero-visual { width: min(70vw, 300px); }
           .ghost-name { font-size: 22vw; }
           .nav-links { display: none; }
         }
@@ -444,14 +485,9 @@ export default function HeroSection() {
         >
           Aryan
         </div>
+        {/* <DitherShaderDemo /> */}
 
-        {/* Blobs */}
-        <div
-          className="blob blob-1"
-          style={{
-            transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)`,
-          }}
-        />
+        {/* Blob */}
         <div
           className="blob blob-2"
           style={{
@@ -493,6 +529,36 @@ export default function HeroSection() {
                 <path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
+          </div>
+        </div>
+
+        {/* Portrait — right side */}
+        <div className="hero-visual">
+          <div
+            className="portrait-glow"
+            style={{
+              transform: `translate(${-mousePos.x * 0.4}px, ${-mousePos.y * 0.4}px)`,
+            }}
+          />
+          <div
+            className="portrait-frame"
+            style={{
+              transform: `translate(${mousePos.x * 0.15}px, ${mousePos.y * 0.15}px) rotate(${mousePos.x * 0.04}deg)`,
+            }}
+          >
+            <CldImage
+              src="IMG_0310-dithered_bbfelu"
+              width={450}
+              height={550}
+              alt="Aryan Pachandi"
+              sizes="(max-width: 768px) 70vw, 28vw"
+              className="portrait-img"
+              style={{
+                borderRadius: "40% 60% 55% 45% / 40% 40% 60% 60%",
+                objectFit: "cover",
+                boxShadow: "0 20px 60px rgba(79,63,240,0.25)",
+              }}
+            />
           </div>
         </div>
 
