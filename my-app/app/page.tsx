@@ -14,22 +14,23 @@ import TerminalContact from "@/components/terminal";
 export default function Home() {
   return (
     <>
-      {/* <Navbar /> */}
-      {/* <LightNavbar /> */}
-      
-      <Hero />
-      <AboutSection/>
-      <ProjectsScroll />
-  
-      {/* <Skills /> */}
-      <ContactDivider />
+      <section id="hero">
+        <Hero />
+      </section>
+
+      <section id="about">
+        <AboutSection />
+      </section>
+
+      <section id="work">
+        <ProjectsScroll />
+      </section>
+
       <section id="contact">
         <TerminalContact />
       </section>
-      {/* <TerminalFooterDivider /> */}
+
       <Footer />
     </>
-  
   );
 }
-

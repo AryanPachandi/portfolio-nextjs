@@ -388,6 +388,7 @@ export default function ContactSection() {
           <span className="eyebrow-num">04</span>
         </div>
 
+         
         <div className={`contact-form-header ${visible ? "vis" : ""}`}>
           <h2 className="contact-form-heading">
             Say it in the <em>terminal</em>.

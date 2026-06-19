@@ -10,10 +10,10 @@ const sitemap = [
 ];
 
 const socials = [
-  { label: "GitHub", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Twitter", href: "#" },
-  { label: "Dribbble", href: "#" },
+  { label: "GitHub", href: "https://github.com/AryanPachandi/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/" },
+  { label: "Twitter", href: "https://x.com/AryanPachandi" },
+  // { label: "Dribbble", href: "#" },
 ];
 
 export default function Footer() {
@@ -403,8 +403,8 @@ export default function Footer() {
           <div>
             <p className="footer-col-label">Direct</p>
             <div className="footer-col-list">
-              <a href="mailto:hello@aryanpachandi.dev">hello@aryanpachandi.dev</a>
-              <a href="tel:+910000000000">+91 00000 00000</a>
+              <a href="mailto:hello@aryanpachandi.dev">pachandiaryan@gmail.com</a>
+              <a href="tel:+910000000000">+91 8468913733</a>
             </div>
           </div>
         </div>

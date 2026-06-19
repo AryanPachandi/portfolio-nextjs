@@ -11,7 +11,7 @@ export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLAnchorElement>(null);
 
-  const roles = ["Full-Stack Developer", "UI/UX Designer", "Creative Coder"];
+  const roles = ["Full-Stack Developer", "Creative Coder", "Backend Developer"];
 
   // Mouse parallax
   useEffect(() => {
@@ -261,6 +261,11 @@ export default function HeroSection() {
           flex-wrap: wrap;
           animation: fadeUp 0.9s 0.55s cubic-bezier(0.16,1,0.3,1) both;
         }
+          @media (max-width: 768px) {
+         .hero-actions {
+          display: none;
+           }
+          }
 
         .btn-primary {
           display: inline-flex;
@@ -460,18 +465,25 @@ export default function HeroSection() {
       `}</style>
 
       {/* Nav */}
-      <nav className="nav">
-        <a href="#" className="nav-logo">
-          aryan<span>.</span>Pachandi
-        </a>
-        <ul className="nav-links">
-          {["Work", "About", "Process", "Contact"].map((link) => (
-            <li key={link}>
-              <a href="#">{link}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+     <nav className="nav">
+      <a href="#hero" className="nav-logo">
+       aryan<span>.</span>Pachandi
+      </a>
+
+      <ul className="nav-links">
+         <li>
+      <a href="#work">Work</a>
+    </li>
+
+    <li>
+      <a href="#about">About</a>
+    </li>
+
+    <li>
+      <a href="#contact">Contact</a>
+    </li>
+  </ul>
+</nav>
 
       {/* Hero */}
       <section className="hero" ref={heroRef}>
@@ -517,13 +529,13 @@ export default function HeroSection() {
           </p>
 
           <div className="hero-actions">
-            <a ref={btnRef} href="#work" className="btn-primary">
+            <a ref={btnRef} href="#work" className="btn-primary hidden md:flex hero-actions">
               View my work
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
-            <a href="#contact" className="btn-secondary">
+            <a href="#contact" className="btn-secondary hidden md:flex hero-actions">
               Let's talk
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -563,27 +575,47 @@ export default function HeroSection() {
         </div>
 
         {/* Stats */}
-        <div className="stats-row">
-          {[
-            { num: "3+", label: "Years exp." },
-            { num: "20+", label: "Projects" },
-            { num: "15+", label: "Clients" },
-          ].map((s) => (
-            <div className="stat" key={s.label}>
-              <div className="stat-num">{s.num}</div>
-              <div className="stat-label">{s.label}</div>
-            </div>
-          ))}
-        </div>
+      <div className="stats-row">
+  {[
+    { num: "2027", label: "Graduating" },
+    { num: "20+", label: "Projects Built" },
+    { num: "1", label: "Internships" },
+  ].map((s) => (
+    <div className="stat" key={s.label}>
+      <div className="stat-num">{s.num}</div>
+      <div className="stat-label">{s.label}</div>
+    </div>
+  ))}
+</div>  
       </section>
 
       {/* Social strip */}
-      <div className="social-strip">
-        {["GitHub", "LinkedIn", "Twitter"].map((s) => (
-          <a key={s} href="#" className="social-link">{s}</a>
-        ))}
-      </div>
-
+    <div className="social-strip">
+  {[
+    {
+      name: "GitHub",
+      url: "https://github.com/AryanPachandi",
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/",
+    },
+    {
+      name: "Twitter",
+      url: "https://x.com/AryanPachandi",
+    },
+  ].map((social) => (
+    <a
+      key={social.name}
+      href={social.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+    >
+      {social.name}
+    </a>
+  ))}
+</div>
       {/* Scroll cue */}
       <div className="scroll-cue">
         <span className="scroll-cue-text">Scroll</span>

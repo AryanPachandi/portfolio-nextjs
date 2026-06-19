@@ -6,7 +6,7 @@ type Project = {
   id: number;
   number: string;
   title: string;
-  category: "Web App" | "Design";
+  category: string;
   year: string;
   tags: string[];
   description: string;
@@ -19,48 +19,55 @@ const projects: Project[] = [
   {
     id: 1,
     number: "01",
-    title: "Lumen",
-    category: "Web App",
-    year: "2024",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    description: "A real-time analytics dashboard for SaaS teams — built for clarity at a glance.",
-    link: "#",
-    code: "#",
+    title: "Pac Wallet",
+    category: "FinTech Backend",
+    year: "2026",
+    tags: ["Node.js", "Express.js", "MongoDB", "JWT"],
+    description:
+      "A digital wallet backend featuring secure authentication, account management, transaction tracking, and cookie-based JWT authorization.",
+    link: "https://github.com/AryanPachandi/Pac-Wallet",
+    code: "https://github.com/AryanPachandi/Pac-Wallet",
     gradient: "linear-gradient(135deg, #4F3FF0 0%, #8B7FF7 100%)",
   },
+
   {
     id: 2,
     number: "02",
-    title: "Nimbus",
-    category: "Web App",
-    year: "2023",
-    tags: ["Next.js", "AWS S3", "Tailwind"],
-    description: "A cloud file manager with drag-and-drop uploads and granular sharing controls.",
-    link: "#",
+    title: "APT Authentication System",
+    category: "Backend",
+    year: "2025",
+    tags: ["Node.js", "Express.js", "JWT", "REST API"],
+    description:
+      "Built a complete authentication system with registration, login, protected routes, role-based access, and secure token handling.",
+    link: "https://www.npmjs.com/package/pachanditoken",
     code: "#",
     gradient: "linear-gradient(135deg, #0A0A0A 0%, #4A4A4A 100%)",
   },
+
   {
     id: 3,
     number: "03",
-    title: "Orbit",
-    category: "Design",
-    year: "2023",
-    tags: ["Figma", "Design Tokens", "Prototyping"],
-    description: "A modular design system and brand identity for an early-stage fintech startup.",
-    link: "#",
+    title: "CritIndia CRM Backend",
+    category: "Internship Project",
+    year: "2026",
+    tags: ["Node.js", "PostgreSQL", "Prisma", "REST API"],
+    description:
+      "Developed and maintained backend services for CritIndia, creating APIs, fixing production issues, and improving CRM workflows during my internship at Atorix.",
+    link: "https://critindia.com",
     code: "#",
     gradient: "linear-gradient(135deg, #DDD9FC 0%, #4F3FF0 100%)",
   },
+
   {
     id: 4,
     number: "04",
-    title: "Pulse",
-    category: "Web App",
-    year: "2022",
-    tags: ["Socket.io", "Redis", "React"],
-    description: "A real-time chat platform supporting 10k+ concurrent connections.",
-    link: "#",
+    title: "ConnectingDots ERP",
+    category: "Enterprise Software",
+    year: "2026",
+    tags: ["Next.js", "Node.js", "PostgreSQL", "Prisma"],
+    description:
+      "Contributed to ERP modules, backend routes, bug fixes, and feature development for a business management platform used by organizations.",
+    link: "https://connectingdotserp.com",
     code: "#",
     gradient: "linear-gradient(135deg, #2B2640 0%, #4F3FF0 100%)",
   },
@@ -457,8 +464,8 @@ export default function ProjectsSrcoll() {
             </a>
           ))}
         </div>
-
-        <div className="projects-footer-cta">
+            <p className="projects-footer-text">Have something in mind that's not on this list?</p>
+        {/* <div className="projects-footer-cta">
           <p className="projects-footer-text">Have something in mind that's not on this list?</p>
           <a href="#contact" className="projects-footer-link">
             Let's talk
@@ -466,7 +473,7 @@ export default function ProjectsSrcoll() {
               <path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-        </div>
+        </div> */}
 
         {/* Floating cursor preview */}
         <div className={`project-preview ${hovered !== null ? "show" : ""}`} ref={previewRef}>

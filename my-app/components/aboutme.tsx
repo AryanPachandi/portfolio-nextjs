@@ -3,17 +3,46 @@
 import { useEffect, useRef, useState } from "react";
 
 const skills = [
-  { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-  { category: "Backend", items: ["Node.js", "PostgreSQL", "Prisma", "REST", "GraphQL"] },
-  { category: "Design", items: ["Figma", "Design Systems", "Prototyping", "Motion Design"] },
-  { category: "Tooling", items: ["Git", "Docker", "Vercel", "CI/CD", "Linux"] },
+  {
+    category: "Frontend",
+    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
+  },
+  {
+    category: "Backend",
+    items: ["Node.js", "Express.js", "PostgreSQL", "Prisma", "REST APIs"]
+  },
+  {
+    category: "Database",
+    items: ["PostgreSQL", "MongoDB", "Redis", "Supabase"]
+  },
+  {
+    category: "Tooling",
+    items: ["Git", "Docker", "Vercel", "CI/CD", "Linux"]
+  }
 ];
 
 const timeline = [
-  { year: "2024", role: "Senior Developer", place: "Freelance / Remote", current: true },
-  { year: "2022", role: "Frontend Engineer", place: "Some Studio, Mumbai" },
-  { year: "2021", role: "UI/UX Designer", place: "Agency Name" },
-  { year: "2020", role: "Started coding", place: "Self-taught" },
+  {
+    year: "2026",
+    role: "Backend Developer Intern",
+    place: "Atorix : Onsite", 
+    current: true,
+  },
+  {
+    year: "2025",
+    role: "Full-Stack Projects",
+    place: "Next.js • Express • PostgreSQL",
+  },
+  {
+    year: "2024",
+    role: "Started MERN Development",
+    place: "Personal Projects",
+  },
+  {
+    year: "2023",
+    role: "Started BTech",
+    place: "Pimpri Chinchwad University",
+  },
 ];
 
 export default function AboutSection() {
@@ -56,11 +85,12 @@ export default function AboutSection() {
           top: 50%;
           right: -4vw;
           transform: translateY(-50%);
-          font-size: clamp(100px, 18vw, 260px);
+           font-size: clamp(90px, 15vw, 200px);
+          opacity: 0.6  ;
           font-weight: 900;
           letter-spacing: -0.04em;
           color: transparent;
-          -webkit-text-stroke: 1px #312e2e;
+          -webkit-text-stroke: 1px #434040;
           pointer-events: none;
           user-select: none;
           z-index: 0;
@@ -236,7 +266,7 @@ export default function AboutSection() {
         }
         .timeline-item {
           display: grid;
-          grid-template-columns: 52px 1fr;
+          grid-template-columns: 80px 1fr;
           gap: 1rem;
           padding: 1rem 0;
           position: relative;
@@ -245,7 +275,7 @@ export default function AboutSection() {
         .timeline-item:not(:last-child)::after {
           content: '';
           position: absolute;
-          left: 22px;
+          left: 55px;
           top: 2.2rem;
           bottom: -0.1rem;
           width: 1px;
@@ -253,15 +283,16 @@ export default function AboutSection() {
         }
 
         .tl-year {
-          font-size: 0.7rem;
-          font-weight: 500;
-          color: #CCCCCC;
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: var(--ink);
+          // color: #666 
           letter-spacing: 0.04em;
           padding-top: 0.15rem;
         }
         .tl-dot {
           position: absolute;
-          left: 18px;
+          left: 50px;
           top: 1.35rem;
           width: 9px;
           height: 9px;
@@ -385,19 +416,25 @@ export default function AboutSection() {
               details.
             </h2>
 
-            <div className="about-body">
-              <p>
-                I'm a <strong>Full-Stack Developer & Designer</strong> based in India — obsessed with the gap between good software and great software. That gap usually lives in the details most people scroll past.
-              </p>
-              <p>
-                My work sits at the intersection of <strong>engineering precision</strong> and <strong>design intention</strong>. I care about performance, accessibility, and interfaces that feel inevitable — not assembled.
-              </p>
-              <p>
-                When I'm not building, I'm probably redesigning something that didn't need it, reading about type, or staring at a terminal wondering why it worked.
-              </p>
-            </div>
+           <div className="about-body">
+  <p>
+    I'm a <strong>Full-Stack Developer</strong> who enjoys building software that balances performance, scalability, and user experience. I believe great products are created through attention to detail and strong engineering fundamentals.
+  </p>
 
-            <a href="/resume.pdf" className="cv-btn">
+  <p>
+    Over the past few years, I've worked with <strong>Next.js, React, Node.js, Express, PostgreSQL, MongoDB, and Prisma</strong>, building everything from backend APIs and CRM systems to full-stack web applications.
+  </p>
+
+  <p>
+    When I'm not coding, you'll usually find me exploring new technologies, improving my understanding of system design, contributing to personal projects, or learning skills that make me a better engineer.
+  </p>
+</div>
+
+            <a
+  href="/Resume%20(5).pdf"
+  download
+  className="cv-btn"
+>
               Download CV
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <path d="M6.5 1v8M3 6.5l3.5 3.5 3.5-3.5M1.5 11.5h10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
