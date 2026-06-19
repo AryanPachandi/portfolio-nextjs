@@ -330,11 +330,7 @@ export default function HeroSection() {
           aspect-ratio: 450 / 550;
           transition: transform 0.15s ease-out;
         }
-        .portrait-img {
-          width: 100% !important;
-          height: 100% !important;
-          display: block;
-        }
+      
 
         /* Social strip */
         .social-strip {
@@ -430,6 +426,15 @@ export default function HeroSection() {
           text-transform: uppercase;
           margin-top: 0.1rem;
         }
+        .portrait-img {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+
+  border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%;
+  object-fit: cover;
+  box-shadow: 0 20px 60px rgba(79,63,240,0.25);
+}
 
         /* Keyframes */
         @keyframes fadeUp {
@@ -461,6 +466,7 @@ export default function HeroSection() {
           .hero-visual { width: min(70vw, 300px); }
           .ghost-name { font-size: 22vw; }
           .nav-links { display: none; }
+
         }
       `}</style>
 
@@ -560,16 +566,10 @@ export default function HeroSection() {
           >
             <CldImage
               src="IMG_0310-dithered_bbfelu"
-              width={550}
-              height={650}
+              width={800}
+              height={900}
               alt="Aryan Pachandi"
-              sizes="(max-width: 768px) 70vw, 28vw"
-              className="portrait-img"
-              style={{
-                borderRadius: "40% 60% 55% 45% / 40% 40% 60% 60%",
-                objectFit: "cover",
-                boxShadow: "0 20px 60px rgba(79,63,240,0.25)",
-              }}
+             className="portrait-img"
             />
           </div>
         </div>
