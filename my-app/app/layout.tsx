@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 import { AudioProvider } from "@/contexts/audio-context";
 import WelcomeGate from "@/components/welcome-gate";
+import MusicPlayer from "@/components/musicplayer";
 
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
@@ -48,6 +49,7 @@ export default function RootLayout({
      <body>
         <AudioProvider>
           <WelcomeGate>{children}</WelcomeGate>
+          <MusicPlayer />
         </AudioProvider>
       </body>
 </html>

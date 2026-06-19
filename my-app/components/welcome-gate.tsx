@@ -76,8 +76,8 @@ export default function WelcomeGate({ children }: { children: React.ReactNode })
         .welcome-sub {
           margin-top: 0.9rem;
           font-size: clamp(0.9rem, 1.4vw, 1.1rem);
-          font-weight: 300;
-          color: #4A4A4A;
+          font-weight: 500;
+          color: #101baf;
         }
 
         .enter-btn {
