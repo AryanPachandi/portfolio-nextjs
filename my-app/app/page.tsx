@@ -8,6 +8,7 @@ import ContactForm from "@/components/from";
 import LightNavbar from "@/components/LigthNavbar";
 import Skills from "@/components/skills";
 import ContactDivider from "@/components/split";
+import AboutSection from "@/components/aboutme"
 
 import TerminalContact from "@/components/terminal";
 import TerminalFooterDivider from "@/components/TerminalFooterDivider";
@@ -15,9 +16,10 @@ export default function Home() {
   return (
     <>
       {/* <Navbar /> */}
-      <LightNavbar />
+      {/* <LightNavbar /> */}
 
       <Hero />
+      <AboutSection/>
       
       <section id="about">
         <Projects />

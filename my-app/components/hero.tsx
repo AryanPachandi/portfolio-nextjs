@@ -1,122 +1,528 @@
 "use client";
 
-import Herotext from "@/components/herotext";
-import { IconBrandGithub } from "@tabler/icons-react";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-// import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 
-const WebcamPixelGrid = dynamic(
-  () =>
-    import("@/components/ui/webcam-pixel-grid").then(
-      (mod) => mod.WebcamPixelGrid
-    ),
-  {
-    ssr: false,
-  }
-);
-export default function Hero() {
- const [mounted, setMounted] = useState(false);
+export default function HeroSection() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [cursorRole, setCursorRole] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const heroRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLAnchorElement>(null);
 
+  const roles = ["Full-Stack Developer", "UI/UX Designer", "Creative Coder"];
+
+  // Mouse parallax
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 1500);
-
-    return () => clearTimeout(timer);
+    const handleMouse = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      setMousePos({
+        x: (e.clientX / innerWidth - 0.5) * 30,
+        y: (e.clientY / innerHeight - 0.5) * 30,
+      });
+    };
+    window.addEventListener("mousemove", handleMouse);
+    return () => window.removeEventListener("mousemove", handleMouse);
   }, []);
-  
+
+  // Typewriter effect
+  useEffect(() => {
+    const role = roles[cursorRole];
+    let i = 0;
+    setDisplayed("");
+    const type = setInterval(() => {
+      i++;
+      setDisplayed(role.slice(0, i));
+      if (i === role.length) {
+        clearInterval(type);
+        setTimeout(() => {
+          const erase = setInterval(() => {
+            i--;
+            setDisplayed(role.slice(0, i));
+            if (i === 0) {
+              clearInterval(erase);
+              setCursorRole((prev) => (prev + 1) % roles.length);
+            }
+          }, 40);
+        }, 1800);
+      }
+    }, 65);
+    return () => clearInterval(type);
+  }, [cursorRole]);
+
+  // Magnetic button
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const handleEnter = (e: MouseEvent) => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.35;
+      const dy = (e.clientY - cy) * 0.35;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    };
+    const handleLeave = () => {
+      btn.style.transform = "translate(0,0)";
+    };
+    btn.addEventListener("mousemove", handleEnter);
+    btn.addEventListener("mouseleave", handleLeave);
+    return () => {
+      btn.removeEventListener("mousemove", handleEnter);
+      btn.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
   return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
-    <div className="relative h-screen w-screen bg-black overflow-hidden">
-     
+        :root {
+          --white: #FFFFFF;
+          --off: #F4F4F3;
+          --ink: #0A0A0A;
+          --ink-soft: #4A4A4A;
+          --accent: #4F3FF0;
+          --accent-light: #EBE9FD;
+        }
 
-      {/* Webcam pixel grid background */}
-      <div className="absolute inset-0">
-      {mounted ? (
-    <WebcamPixelGrid
-      gridCols={60}
-      gridRows={40}
-      maxElevation={50}
-      motionSensitivity={0.25}
-      elevationSmoothing={0.2}
-      colorMode="webcam"
-      backgroundColor="#030303"
-      mirror={true}
-      gapRatio={0.05}
-      invertColors={false}
-      darken={0.6}
-      borderColor="#ffffff"
-      borderOpacity={0.06}
-      className="w-full h-full"
-      onWebcamReady={() => console.log("Webcam ready!")}
-      onWebcamError={(err) => console.error("Webcam error:", err)}
-    />
-  ) : (
-    <div className="w-full h-full bg-black" />
-  )}
-      </div>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
+        body {
+          font-family: 'Inter', sans-serif;
+          background: var(--white);
+          color: var(--ink);
+          overflow-x: hidden;
+        }
 
-      {/* Hero content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
-        <div className="max-w-4xl text-center">
-          {/* Badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm">
-            Portfolio &rarr;
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding: 0 6vw;
+          overflow: hidden;
+        }
+
+        /* Ghost name in background */
+        .ghost-name {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: clamp(80px, 16vw, 220px);
+          font-weight: 900;
+          letter-spacing: -0.04em;
+          color: transparent;
+          -webkit-text-stroke: 1.5px #504242;
+          white-space: nowrap;
+          pointer-events: none;
+          user-select: none;
+          transition: transform 0.12s ease-out;
+          font-family: 'Inter', sans-serif;
+          z-index: 0;
+        }
+
+        /* Floating accent blob */
+        .blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(60px);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .blob-1 {
+          width: 340px; height: 340px;
+          background: radial-gradient(circle, #DDD9FC 0%, transparent 70%);
+          top: 8%; right: 12%;
+          transition: transform 0.18s ease-out;
+        }
+        .blob-2 {
+          width: 200px; height: 200px;
+          background: radial-gradient(circle, #F0EEF9 0%, transparent 70%);
+          bottom: 14%; left: 8%;
+          transition: transform 0.18s ease-out;
+        }
+
+        /* Nav */
+        .nav {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.6rem 6vw;
+          z-index: 100;
+          background: rgba(255,255,255,0.8);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .nav-logo {
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          color: var(--ink);
+          text-decoration: none;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links {
+          display: flex;
+          gap: 2.2rem;
+          list-style: none;
+        }
+        .nav-links a {
+          font-size: 0.85rem;
+          font-weight: 400;
+          color: var(--ink-soft);
+          text-decoration: none;
+          letter-spacing: 0.01em;
+          transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--ink); }
+
+        /* Main content */
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          max-width: 900px;
+          animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .status-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: var(--accent-light);
+          color: var(--accent);
+          font-size: 0.75rem;
+          font-weight: 500;
+          padding: 0.35rem 0.9rem;
+          border-radius: 100px;
+          margin-bottom: 2rem;
+          letter-spacing: 0.02em;
+          animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .status-dot {
+          width: 7px; height: 7px;
+          background: var(--accent);
+          border-radius: 50%;
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero-name {
+          font-size: clamp(52px, 9vw, 120px);
+          font-weight: 800;
+          letter-spacing: -0.035em;
+          line-height: 0.95;
+          color: var(--ink);
+          animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero-name .accent-char { color: var(--accent); }
+
+        .hero-role {
+          margin-top: 1.4rem;
+          font-size: clamp(1rem, 1.8vw, 1.25rem);
+          font-weight: 300;
+          color: var(--ink-soft);
+          min-height: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 0.15em;
+          letter-spacing: -0.01em;
+          animation: fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .cursor-blink {
+          display: inline-block;
+          width: 2px;
+          height: 1.1em;
+          background: var(--accent);
+          border-radius: 2px;
+          animation: blink 1s step-end infinite;
+          vertical-align: middle;
+        }
+
+        .hero-bio {
+          margin-top: 1.6rem;
+          max-width: 480px;
+          font-size: clamp(0.88rem, 1.2vw, 1rem);
+          line-height: 1.75;
+          color: var(--ink-soft);
+          font-weight: 300;
+          animation: fadeUp 0.9s 0.45s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .hero-actions {
+          margin-top: 2.8rem;
+          display: flex;
+          align-items: center;
+          gap: 1.4rem;
+          flex-wrap: wrap;
+          animation: fadeUp 0.9s 0.55s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        .btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: var(--ink);
+          color: var(--white);
+          font-size: 0.88rem;
+          font-weight: 500;
+          padding: 0.85rem 1.8rem;
+          border-radius: 100px;
+          text-decoration: none;
+          letter-spacing: 0.01em;
+          transition: background 0.2s, transform 0.15s;
+        }
+        .btn-primary:hover { background: var(--accent); }
+
+        .btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          color: var(--ink-soft);
+          font-size: 0.88rem;
+          font-weight: 400;
+          text-decoration: none;
+          letter-spacing: 0.01em;
+          border-bottom: 1px solid transparent;
+          transition: color 0.2s, border-color 0.2s;
+          padding-bottom: 1px;
+        }
+        .btn-secondary:hover {
+          color: var(--ink);
+          border-color: var(--ink);
+        }
+
+        /* Social strip */
+        .social-strip {
+          position: fixed;
+          left: 2rem;
+          bottom: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.1rem;
+          z-index: 10;
+          animation: fadeUp 1s 0.8s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .social-strip::after {
+          content: '';
+          width: 1px;
+          height: 80px;
+          background: linear-gradient(to bottom, var(--ink-soft), transparent);
+          display: block;
+        }
+        .social-link {
+          color: var(--ink-soft);
+          text-decoration: none;
+          font-size: 0.7rem;
+          font-weight: 500;
+          writing-mode: vertical-rl;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          transition: color 0.2s;
+        }
+        .social-link:hover { color: var(--accent); }
+
+        /* Scroll cue */
+        .scroll-cue {
+          position: fixed;
+          right: 2rem;
+          bottom: 2.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          z-index: 10;
+          animation: fadeUp 1s 0.9s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .scroll-cue-text {
+          font-size: 0.65rem;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--ink-soft);
+          writing-mode: vertical-rl;
+        }
+        .scroll-arrow {
+          width: 1px;
+          height: 48px;
+          background: linear-gradient(to bottom, transparent, var(--ink-soft));
+          position: relative;
+          overflow: hidden;
+        }
+        .scroll-arrow::after {
+          content: '';
+          position: absolute;
+          top: -100%;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to bottom, transparent, var(--accent));
+          animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        /* Stats row */
+        .stats-row {
+          position: absolute;
+          bottom: 3rem;
+          right: 6vw;
+          display: flex;
+          gap: 2.5rem;
+          z-index: 2;
+          animation: fadeUp 0.9s 0.7s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .stat {
+          text-align: right;
+        }
+        .stat-num {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: var(--ink);
+          letter-spacing: -0.03em;
+        }
+        .stat-label {
+          font-size: 0.7rem;
+          color: var(--ink-soft);
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          margin-top: 0.1rem;
+        }
+
+        /* Keyframes */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.4); opacity: 0.6; }
+        }
+        @keyframes scrollLine {
+          0% { top: -100%; }
+          100% { top: 100%; }
+        }
+
+        @media (max-width: 768px) {
+          .social-strip, .scroll-cue, .stats-row { display: none; }
+          .hero { padding: 0 6vw; justify-content: flex-start; }
+          .ghost-name { font-size: 22vw; }
+          .nav-links { display: none; }
+        }
+      `}</style>
+
+      {/* Nav */}
+      <nav className="nav">
+        <a href="#" className="nav-logo">
+          aryan<span>.</span>Pachandi
+        </a>
+        <ul className="nav-links">
+          {["Work", "About", "Process", "Contact"].map((link) => (
+            <li key={link}>
+              <a href="#">{link}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Hero */}
+      <section className="hero" ref={heroRef}>
+
+        {/* Ghost background name */}
+        <div
+          className="ghost-name"
+          style={{
+            transform: `translate(calc(-50% + ${mousePos.x * 0.4}px), calc(-50% + ${mousePos.y * 0.4}px))`,
+          }}
+        >
+          Aryan
+        </div>
+
+        {/* Blobs */}
+        <div
+          className="blob blob-1"
+          style={{
+            transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)`,
+          }}
+        />
+        <div
+          className="blob blob-2"
+          style={{
+            transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px)`,
+          }}
+        />
+
+        {/* Main content */}
+        <div className="hero-content">
+          <div className="status-pill">
+            <span className="status-dot" />
+            Available for work
           </div>
 
-          {/* Title */}
-          {/* <h1 className="mb-6 text-xl font-bold tracking-tight text-white sm:text-6xl md:text-8xl">
-          
-          
-          </h1> */}
-           <Herotext />
+          <h1 className="hero-name">
+            Aryan<br />
+            Pachandi <span className="accent-char">.</span>
+          </h1>
 
-          {/* Description */}
-          <p className="mx-auto mb-10 max-w-2xl text-base text-white/60 sm:text-xl">
-          Explore my journey as a Full Stack Developer, featuring projects, technical skills, and experiences that turn ideas into scalable applications.
+          <p className="hero-role">
+            {displayed}
+            <span className="cursor-blink" />
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <button  onClick={() => window.open("/Resume (5).pdf", "_blank")} className="group relative inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-8 text-base font-medium text-black transition-all hover:bg-white/90 hover:scale-105">
-              Download Resume
-              <svg
-                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+          <p className="hero-bio">
+            I build fast, thoughtful digital experiences — from pixel-perfect interfaces to scalable backend systems. Based in India, working globally.
+          </p>
+
+          <div className="hero-actions">
+            <a ref={btnRef} href="#work" className="btn-primary">
+              View my work
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </button>
-       
-            <a
-  href="https://github.com/AryanPachandi"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30"
->
-  <IconBrandGithub size={18} />
-  View Projects
-</a>
+            </a>
+            <a href="#contact" className="btn-secondary">
+              Let's talk
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        
-      </div>
-      
-    </div>
-    
+        {/* Stats */}
+        <div className="stats-row">
+          {[
+            { num: "3+", label: "Years exp." },
+            { num: "20+", label: "Projects" },
+            { num: "15+", label: "Clients" },
+          ].map((s) => (
+            <div className="stat" key={s.label}>
+              <div className="stat-num">{s.num}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
+      {/* Social strip */}
+      <div className="social-strip">
+        {["GitHub", "LinkedIn", "Twitter"].map((s) => (
+          <a key={s} href="#" className="social-link">{s}</a>
+        ))}
+      </div>
+
+      {/* Scroll cue */}
+      <div className="scroll-cue">
+        <span className="scroll-cue-text">Scroll</span>
+        <div className="scroll-arrow" />
+      </div>
+    </>
   );
 }
