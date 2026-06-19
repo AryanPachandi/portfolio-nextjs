@@ -80,9 +80,9 @@ export default function Navbar() {
 
         {/* Mobile dropdown */}
     <div
-  className={`${styles.mobileMenu} ${
-    menuOpen ? styles.visible : ""
-  }`}
+       className={`${styles.mobileMenu} ${
+       menuOpen ? styles.visible : ""
+     }`}
 >
           {navLinks.map(({ label, href }) => (
             <Link key={href} href={href} className={styles.mobileLink} onClick={handleLinkClick}>

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/SmoothScroll";
-
+import Navbar from "@/components/navbar";
 
 import { AudioProvider } from "@/contexts/audio-context";
 import WelcomeGate from "@/components/welcome-gate";
@@ -48,6 +48,7 @@ export default function RootLayout({
 >
      <body>
         <AudioProvider>
+            <Navbar />
           <WelcomeGate>{children}</WelcomeGate>
           <MusicPlayer />
         </AudioProvider>
