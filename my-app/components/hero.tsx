@@ -548,8 +548,8 @@ export default function HeroSection() {
           >
             <CldImage
               src="IMG_0310-dithered_bbfelu"
-              width={450}
-              height={550}
+              width={550}
+              height={650}
               alt="Aryan Pachandi"
               sizes="(max-width: 768px) 70vw, 28vw"
               className="portrait-img"
