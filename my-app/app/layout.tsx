@@ -4,6 +4,11 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/SmoothScroll";
 
+
+import { AudioProvider } from "@/contexts/audio-context";
+import WelcomeGate from "@/components/welcome-gate";
+
+
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
@@ -40,10 +45,11 @@ export default function RootLayout({
     inter.variable
   )}
 >
-  <body className="min-h-full flex flex-col">
-    {/* <SmoothScroll /> */}
-    {children}
-  </body>
+     <body>
+        <AudioProvider>
+          <WelcomeGate>{children}</WelcomeGate>
+        </AudioProvider>
+      </body>
 </html>
   );
 }
