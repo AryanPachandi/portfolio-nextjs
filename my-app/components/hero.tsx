@@ -306,7 +306,7 @@ export default function HeroSection() {
           position: relative;
           z-index: 2;
           flex-shrink: 0;
-          width: clamp(280px, 34vw, 560px);
+          width: clamp(280px, 34vw, 540px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -567,7 +567,7 @@ export default function HeroSection() {
             <CldImage
               src="IMG_0310-dithered_bbfelu"
               width={900}
-              height={1000}
+              height={900}
               alt="Aryan Pachandi"
              className="portrait-img"
             />
