@@ -312,6 +312,7 @@ export default function Footer() {
           color: #A8A6A2;
           letter-spacing: 0.01em;
         }
+          
         .back-to-top {
           display: inline-flex;
           align-items: center;
@@ -326,6 +327,7 @@ export default function Footer() {
           cursor: pointer;
           transition: color 0.2s;
         }
+
         .back-to-top:hover { color: var(--accent); }
         .back-to-top svg { transition: transform 0.2s; }
         .back-to-top:hover svg { transform: translateY(-2px); }
@@ -335,7 +337,8 @@ export default function Footer() {
           .footer-columns { grid-template-columns: 1fr 1fr; row-gap: 2.4rem; }
           .footer-cta-row { flex-direction: column; align-items: flex-start; }
           .eyebrow-num { display: none; }
-        }
+          }
+        
       `}</style>
 
       <footer className="footer" id="contact" ref={sectionRef}>
@@ -356,6 +359,7 @@ export default function Footer() {
           <h2 className="footer-heading">
             Let's build<br />
             something <em>great</em>.
+            
           </h2>
 
           <div className="footer-cta-row">
@@ -365,8 +369,9 @@ export default function Footer() {
                 <path d="M7 17L17 7M17 7H10M17 7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
-
+            <h2>Be Nice to me and hire me </h2>
             <div className="footer-local-time">
+
               <span>Pune, India</span>
               <span className="time-dot" />
               <span>Local time <strong>{time}</strong></span>

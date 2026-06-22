@@ -428,7 +428,7 @@ export default function HeroSection() {
         }
         .portrait-img {
          width: 100%;
-        max-width: 650px;
+        max-width: 450px;
          height: auto;
 
          border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%;
@@ -471,25 +471,7 @@ export default function HeroSection() {
       `}</style>
 
       {/* Nav */}
-     <nav className="nav">
-      <a href="#hero" className="nav-logo">
-       aryan<span>.</span>Pachandi
-      </a>
 
-      <ul className="nav-links">
-         <li>
-      <a href="#work">Work</a>
-    </li>
-
-    <li>
-      <a href="#about">About</a>
-    </li>
-
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
-  </ul>
-</nav>
 
       {/* Hero */}
       <section className="hero" ref={heroRef}>
