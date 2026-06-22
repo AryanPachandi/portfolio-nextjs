@@ -435,7 +435,7 @@ export default function ContactSection() {
                 autoComplete="off"
                 spellCheck={false}
                 disabled={!ready}
-                placeholder={ready ? "" : "booting..."}
+                placeholder={ready ? "name your_name" : "booting..."}
                 className="terminal-input"
               />
             </div>

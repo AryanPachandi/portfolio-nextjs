@@ -369,7 +369,7 @@ export default function Footer() {
                 <path d="M7 17L17 7M17 7H10M17 7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
-            <h2>Be Nice to me and hire me </h2>
+            
             <div className="footer-local-time">
 
               <span>Pune, India</span>
