@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAudio } from "@/contexts/audio-context";
+import { GLSLHills } from "@/components/GLSLHills";
 
 export default function WelcomeGate({ children }: { children: React.ReactNode }) {
   const { startAudio } = useAudio();
@@ -136,6 +137,7 @@ export default function WelcomeGate({ children }: { children: React.ReactNode })
 
       {!entered && (
         <div className={`welcome-gate ${entering ? "is-leaving" : ""}`}>
+            <GLSLHills />
           <div className="welcome-glow" />
           <div className="welcome-content">
             <span className="welcome-tag">Portfolio</span>
