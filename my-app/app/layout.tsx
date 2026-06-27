@@ -13,9 +13,10 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Aryan Pachandi",
-  description: "Full-stack developer & designer building fast, thoughtful digital experiences from India, for clients worldwide.",
+export const metadata = {
+  title: "Aryan Pachandi | Full Stack Developer",
+  description:
+    "Portfolio of Aryan Pachandi, a Full Stack Developer specializing in React, Next.js, Node.js, Express, MongoDB, PostgreSQL, and modern web applications.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
