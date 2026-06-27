@@ -63,14 +63,6 @@ export default function AboutSection() {
     <>
       <style>{`
         /* Inherits :root vars from HeroSection — redefine here if used standalone */
-        :root {
-          --white: #FFFFFF;
-          --off: #F4F4F3;
-          --ink: #0A0A0A;
-          --ink-soft: #4A4A4A;
-          --accent: #4F3FF0;
-          --accent-light: #EBE9FD;
-        }
 
         .about {
           position: relative;
@@ -112,14 +104,14 @@ export default function AboutSection() {
         .eyebrow-line {
           width: 36px;
           height: 1px;
-          background: var(--accent);
+          background: var(--brand-accent);
         }
         .eyebrow-label {
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: var(--accent);
+          color: var(--brand-accent);
         }
         .eyebrow-num {
           margin-left: auto;
@@ -252,9 +244,9 @@ export default function AboutSection() {
         }
         .skill-tag:hover,
         .skill-tag.active {
-          background: var(--accent-light);
-          color: var(--accent);
-          border-color: var(--accent-light);
+          background: var(--brand-accent-light);
+          color: var(--brand-accent);
+          border-color: var(--brand-accent-light);
         }
 
         /* Timeline */
@@ -303,8 +295,8 @@ export default function AboutSection() {
           transition: background 0.2s;
         }
         .timeline-item.current .tl-dot {
-          background: var(--accent);
-          box-shadow: 0 0 0 3px var(--accent-light);
+          background: var(--brand-accent);
+          box-shadow: 0 0 0 3px var(--brand-accent-light);
         }
         .tl-body {
           padding-left: 1rem;
@@ -325,8 +317,8 @@ export default function AboutSection() {
           display: inline-block;
           font-size: 0.62rem;
           font-weight: 500;
-          background: var(--accent-light);
-          color: var(--accent);
+          background: var(--brand-accent-light);
+          color: var(--brand-accent);
           padding: 0.1rem 0.5rem;
           border-radius: 100px;
           margin-left: 0.5rem;
@@ -369,7 +361,7 @@ export default function AboutSection() {
           align-items: center;
           justify-content: center;
           margin-bottom: 0.9rem;
-          color: var(--accent);
+          color: var(--brand-accent);
         }
         .value-title {
           font-size: 0.9rem;

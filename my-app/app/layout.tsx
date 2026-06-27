@@ -4,55 +4,45 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/navbar";
-
 import { AudioProvider } from "@/contexts/audio-context";
 import WelcomeGate from "@/components/welcome-gate";
 import MusicPlayer from "@/components/musicplayer";
+import { ThemeProvider } from "next-themes";
 
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Aryan Pachandi",
   description: "Full-stack developer & designer building fast, thoughtful digital experiences from India, for clients worldwide.",
-  
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
- <html
-  lang="en"
-  className={cn(
-    "h-full",
-    "scroll-smooth",
-    "antialiased",
-    geistSans.variable,
-    geistMono.variable,
-    "font-sans",
-    inter.variable
-  )}
->
-     <body>
-        <AudioProvider>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(
+        "h-full",
+        "scroll-smooth",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        inter.variable
+      )}
+    >
+      <body>
+        <SmoothScroll />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <AudioProvider>
             <Navbar />
-          <WelcomeGate>{children}</WelcomeGate>
-          <MusicPlayer />
-        </AudioProvider>
+            <WelcomeGate>{children}</WelcomeGate>
+            <MusicPlayer />
+          </AudioProvider>
+        </ThemeProvider>
       </body>
-</html>
+    </html>
   );
 }

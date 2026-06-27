@@ -181,15 +181,7 @@ export default function ContactSection() {
   return (
     <>
       <style>{`
-        :root {
-          --white: #FFFFFF;
-          --off: #F4F4F3;
-          --ink: #0A0A0A;
-          --ink-soft: #4A4A4A;
-          --accent: #4F3FF0;
-          --accent-soft: #8B7FF7;
-          --accent-light: #EBE9FD;
-        }
+
 
         .contact-form {
           position: relative;
@@ -226,13 +218,13 @@ export default function ContactSection() {
           transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .contact-form-eyebrow.vis { opacity: 1; transform: translateY(0); }
-        .eyebrow-line { width: 36px; height: 1px; background: var(--accent); }
+        .eyebrow-line { width: 36px; height: 1px; background: var(--brand-accent); }
         .eyebrow-label {
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: var(--accent);
+          color: var(--brand-accent);
         }
         .eyebrow-num {
           margin-left: auto;
@@ -284,26 +276,26 @@ export default function ContactSection() {
         }
         .terminal-wrap.vis { opacity: 1; transform: translateY(0); }
 
-        .terminal {
-          width: 100%;
-          max-width: 640px;
-          margin: 0 auto;
-          border-radius: 16px;
-          overflow: hidden;
-          background: var(--ink);
-          box-shadow: 0 40px 80px -20px rgba(10,10,10,0.35);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
+      .terminal {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0A0A0A;           /* fixed black, not var(--ink) */
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.08);
+}
 
-        .terminal-bar {
-          display: flex;
-          align-items: center;
-          height: 42px;
-          padding: 0 1rem;
-          gap: 0.6rem;
-          background: #141414;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 1rem;
+  gap: 0.6rem;
+  background: #141414;            /* fixed, was already fixed — fine */
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
         .terminal-dot {
           width: 11px;
           height: 11px;
@@ -327,6 +319,8 @@ export default function ContactSection() {
         }
         .terminal-history::-webkit-scrollbar { display: none; }
 
+        .terminal-line.info { color: #C9C3FB; }   /* fixed light lavender, not var(--brand-accent-light) */
+        
         .terminal-line {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.8rem;
@@ -337,10 +331,10 @@ export default function ContactSection() {
         .terminal-line.output { color: #B8B8B8; }
         .terminal-line.ok { color: #8FCB9C; }
         .terminal-line.err { color: #E08A8A; }
-        .terminal-line.info { color: var(--accent-light); }
+        .terminal-line.info { color: var(--brand-accent-light); }
         .terminal-line.head { color: #FFFFFF; font-weight: 500; }
 
-        .terminal-prompt-user { color: var(--accent-soft); }
+        .terminal-prompt-user { color: var(--brand-accent-soft); }
         .terminal-prompt-host { color: #8FCB9C; }
         .terminal-prompt-path { color: #C9C9C9; }
 
@@ -362,7 +356,7 @@ export default function ContactSection() {
           color: #EDEDED;
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.8rem;
-          caret-color: var(--accent);
+          caret-color: var(--brand-accent);
         }
         .terminal-input::placeholder { color: #5A5A5A; }
 

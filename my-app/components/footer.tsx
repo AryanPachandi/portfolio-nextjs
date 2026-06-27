@@ -21,7 +21,7 @@ export default function Footer() {
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const [visible, setVisible] = useState(false);
   const [time, setTime] = useState("");
-
+                                                                  
   // Scroll reveal
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -79,14 +79,6 @@ export default function Footer() {
   return (
     <>
       <style>{`
-        :root {
-          --white: #FFFFFF;
-          --off: #F4F4F3;
-          --ink: #0A0A0A;
-          --ink-soft: #4A4A4A;
-          --accent: #4F3FF0;
-          --accent-light: #EBE9FD;
-        }
 
         .footer {
           position: relative;
@@ -124,13 +116,13 @@ export default function Footer() {
           transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .footer-eyebrow.vis { opacity: 1; transform: translateY(0); }
-        .eyebrow-line { width: 36px; height: 1px; background: var(--accent); }
+        .eyebrow-line { width: 36px; height: 1px; background: var(--brand-accent); }
         .eyebrow-label {
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: var(--accent);
+          color: var(--brand-accent);
         }
         .eyebrow-num {
           margin-left: auto;
@@ -155,8 +147,8 @@ export default function Footer() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: var(--accent-light);
-          color: var(--accent);
+          background: var(--brand-accent-light);
+          color: var(--brand-accent);
           font-size: 0.75rem;
           font-weight: 500;
           padding: 0.35rem 0.9rem;
@@ -166,7 +158,7 @@ export default function Footer() {
         }
         .status-dot {
           width: 7px; height: 7px;
-          background: var(--accent);
+          background: var(--brand-accent);
           border-radius: 50%;
           animation: pulse 2s ease-in-out infinite;
         }
@@ -209,7 +201,7 @@ export default function Footer() {
           text-decoration: none;
           transition: color 0.2s;
         }
-        .footer-cta-link:hover { color: var(--accent); }
+        .footer-cta-link:hover { color: var(--brand-accent); }
         .footer-cta-link svg {
           width: 38px;
           height: 38px;
@@ -221,7 +213,7 @@ export default function Footer() {
           box-sizing: border-box;
           transition: background 0.2s, transform 0.15s;
         }
-        .footer-cta-link:hover svg { background: var(--accent); }
+        .footer-cta-link:hover svg { background: var(--brand-accent); }
 
         .footer-local-time {
           display: flex;
@@ -262,7 +254,7 @@ export default function Footer() {
           color: var(--ink);
           letter-spacing: -0.01em;
         }
-        .footer-brand-name span { color: var(--accent); }
+        .footer-brand-name span { color: var(--brand-accent); }
         .footer-brand-desc {
           margin-top: 0.8rem;
           font-size: 0.82rem;
@@ -293,7 +285,7 @@ export default function Footer() {
           transition: color 0.2s;
           width: fit-content;
         }
-        .footer-col-list a:hover { color: var(--accent); }
+        .footer-col-list a:hover { color: var(--brand-accent); }
 
         /* Bottom bar */
         .footer-bottom {
@@ -328,7 +320,7 @@ export default function Footer() {
           transition: color 0.2s;
         }
 
-        .back-to-top:hover { color: var(--accent); }
+        .back-to-top:hover { color: var(--brand-accent); }
         .back-to-top svg { transition: transform 0.2s; }
         .back-to-top:hover svg { transform: translateY(-2px); }
 
@@ -395,7 +387,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
+          
           <div>
             <p className="footer-col-label">Connect</p>
             <div className="footer-col-list">

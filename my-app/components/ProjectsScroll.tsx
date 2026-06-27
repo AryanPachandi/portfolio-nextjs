@@ -114,14 +114,7 @@ export default function ProjectsSrcoll() {
   return (
     <>
       <style>{`
-        :root {
-          --white: #FFFFFF;
-          --off: #F4F4F3;
-          --ink: #0A0A0A;
-          --ink-soft: #4A4A4A;
-          --accent: #4F3FF0;
-          --accent-light: #EBE9FD;
-        }
+
 
         .projects {
           position: relative;
@@ -159,13 +152,13 @@ export default function ProjectsSrcoll() {
           z-index: 1;
         }
         .projects-eyebrow.vis { opacity: 1; transform: translateY(0); }
-        .eyebrow-line { width: 36px; height: 1px; background: var(--accent); }
+        .eyebrow-line { width: 36px; height: 1px; background: var(--brand-accent); }
         .eyebrow-label {
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: var(--accent);
+          color: var(--brand-accent);
         }
         .eyebrow-num {
           margin-left: auto;
@@ -239,9 +232,9 @@ export default function ProjectsSrcoll() {
         }
         .filter-tab:hover { color: var(--ink); border-color: #D8D8D8; }
         .filter-tab.active {
-          background: var(--accent-light);
-          color: var(--accent);
-          border-color: var(--accent-light);
+          background: var(--brand-accent-light);
+          color: var(--brand-accent);
+          border-color: var(--brand-accent-light);
         }
 
         /* Project list */
@@ -279,7 +272,7 @@ export default function ProjectsSrcoll() {
           letter-spacing: 0.04em;
           transition: color 0.25s ease;
         }
-        .project-row:hover .project-number { color: var(--accent); }
+        .project-row:hover .project-number { color: var(--brand-accent); }
 
         .project-main { min-width: 0; }
         .project-title {
@@ -289,7 +282,7 @@ export default function ProjectsSrcoll() {
           color: var(--ink);
           transition: color 0.25s ease;
         }
-        .project-row:hover .project-title { color: var(--accent); }
+        .project-row:hover .project-title { color: var(--brand-accent); }
         .project-desc {
           margin-top: 0.3rem;
           font-size: 0.82rem;
@@ -330,7 +323,7 @@ export default function ProjectsSrcoll() {
         }
         .project-row:hover .project-arrow {
           transform: rotate(90deg);
-          color: var(--accent);
+          color: var(--brand-accent);
         }
 
         /* Cursor-following preview */
@@ -392,7 +385,7 @@ export default function ProjectsSrcoll() {
           padding-bottom: 1px;
           transition: color 0.2s, border-color 0.2s;
         }
-        .projects-footer-link:hover { color: var(--accent); border-color: var(--accent); }
+        .projects-footer-link:hover { color: var(--brand-accent); border-color: var(--brand-accent); }
 
         @media (max-width: 768px) {
           .projects-ghost { display: none; }

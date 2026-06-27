@@ -79,14 +79,7 @@ export default function HeroSection() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
-        :root {
-          --white: #FFFFFF;
-          --off: #F4F4F3;
-          --ink: #0A0A0A;
-          --ink-soft: #4A4A4A;
-          --accent: #4F3FF0;
-          --accent-light: #EBE9FD;
-        }
+    
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -118,7 +111,7 @@ export default function HeroSection() {
           font-weight: 900;
           letter-spacing: -0.04em;
           color: transparent;
-          -webkit-text-stroke: 1.5px #504242;
+          -webkit-text-stroke: 1.5px var(--ghost-stroke);
           white-space: nowrap;
           pointer-events: none;
           user-select: none;
@@ -137,49 +130,12 @@ export default function HeroSection() {
         }
         .blob-2 {
           width: 200px; height: 200px;
-          background: radial-gradient(circle, #F0EEF9 0%, transparent 70%);
+          background: radial-gradient(circle, var(--brand-accent-glow) 0%, transparent 70%);
           bottom: 14%; left: 8%;
           transition: transform 0.18s ease-out;
         }
 
-        /* Nav */
-        .nav {
-          position: fixed;
-          top: 0; left: 0; right: 0;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.6rem 6vw;
-          z-index: 100;
-          background: rgba(255,255,255,0.8);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(0,0,0,0.04);
-        }
-
-        .nav-logo {
-          font-size: 1rem;
-          font-weight: 600;
-          letter-spacing: -0.01em;
-          color: var(--ink);
-          text-decoration: none;
-        }
-        .nav-logo span { color: var(--accent); }
-
-        .nav-links {
-          display: flex;
-          gap: 2.2rem;
-          list-style: none;
-        }
-        .nav-links a {
-          font-size: 0.85rem;
-          font-weight: 400;
-          color: var(--ink-soft);
-          text-decoration: none;
-          letter-spacing: 0.01em;
-          transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--ink); }
+     
 
         /* Main content */
         .hero-content {
@@ -194,8 +150,8 @@ export default function HeroSection() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: var(--accent-light);
-          color: var(--accent);
+          background: var(--brand-accent-light);
+          color: var(--brand-accent);
           font-size: 0.75rem;
           font-weight: 500;
           padding: 0.35rem 0.9rem;
@@ -206,7 +162,7 @@ export default function HeroSection() {
         }
         .status-dot {
           width: 7px; height: 7px;
-          background: var(--accent);
+          background: var(--brand-accent);
           border-radius: 50%;
           animation: pulse 2s ease-in-out infinite;
         }
@@ -219,7 +175,7 @@ export default function HeroSection() {
           color: var(--ink);
           animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
         }
-        .hero-name .accent-char { color: var(--accent); }
+        .hero-name .accent-char { color: var(--brand-accent); }
 
         .hero-role {
           margin-top: 1.4rem;
@@ -237,7 +193,7 @@ export default function HeroSection() {
           display: inline-block;
           width: 2px;
           height: 1.1em;
-          background: var(--accent);
+          background: var(--brand-accent);
           border-radius: 2px;
           animation: blink 1s step-end infinite;
           vertical-align: middle;
@@ -271,8 +227,8 @@ export default function HeroSection() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: var(--ink);
-          color: var(--white);
+          background: var(--button-bg);
+          color: var(--button-fg);
           font-size: 0.88rem;
           font-weight: 500;
           padding: 0.85rem 1.8rem;
@@ -281,7 +237,7 @@ export default function HeroSection() {
           letter-spacing: 0.01em;
           transition: background 0.2s, transform 0.15s;
         }
-        .btn-primary:hover { background: var(--accent); }
+        .btn-primary:hover { background: var(--brand-accent); }
 
         .btn-secondary {
           display: inline-flex;
@@ -317,7 +273,7 @@ export default function HeroSection() {
           width: 130%;
           height: 130%;
           border-radius: 50%;
-          background: radial-gradient(circle, #DDD9FC 0%, transparent 70%);
+          background: radial-gradient(circle, var(--brand-accent-glow) 0%, transparent 70%);
           filter: blur(50px);
           z-index: 0;
           pointer-events: none;
@@ -361,7 +317,7 @@ export default function HeroSection() {
           text-transform: uppercase;
           transition: color 0.2s;
         }
-        .social-link:hover { color: var(--accent); }
+        .social-link:hover { color: var(--brand-accent); }
 
         /* Scroll cue */
         .scroll-cue {
@@ -396,7 +352,7 @@ export default function HeroSection() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(to bottom, transparent, var(--accent));
+          background: linear-gradient(to bottom, transparent, var(--brand-accent));
           animation: scrollLine 2s ease-in-out infinite;
         }
 
@@ -433,7 +389,7 @@ export default function HeroSection() {
 
          border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%;
          object-fit: cover;
-         box-shadow: 0 20px 60px rgba(79,63,240,0.25);
+         box-shadow: 0 20px 60px var(--brand-accent-glow);
         }
 
         /* Keyframes */
