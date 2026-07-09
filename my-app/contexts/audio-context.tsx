@@ -3,7 +3,7 @@
     import { createContext, useContext, useRef, useState, ReactNode } from "react";
 
     type AudioContextValue = {
-    audioRef: React.RefObject<HTMLAudioElement>;
+    audioRef: React.RefObject<HTMLAudioElement | null>;
     playing: boolean;
     startAudio: () => Promise<void>;
     toggleAudio: () => Promise<void>;
@@ -43,9 +43,8 @@
     };
 
     return (
-        //@ts-ignore
         <AudioCtx.Provider value={{ audioRef, playing, startAudio, toggleAudio }}>
-        <audio ref={audioRef} loop preload="auto">
+        <audio ref={audioRef} loop preload="none">
             <source src="/kholo.mp3" type="audio/mpeg" />
         </audio>
         {children}

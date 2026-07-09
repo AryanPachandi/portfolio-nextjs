@@ -13,10 +13,41 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-export const metadata = {
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://aryanpachandi.vercel.app"),
+
   title: "Aryan Pachandi | Full Stack Developer",
   description:
-    "Portfolio of Aryan Pachandi, a Full Stack Developer specializing in React, Next.js, Node.js, Express, MongoDB, PostgreSQL, and modern web applications.",
+    "Portfolio of Aryan Pachandi, Full Stack Developer specializing in React, Next.js, Node.js, Express.js, MongoDB and PostgreSQL.",
+
+  applicationName: "Aryan Pachandi",
+
+  alternates: {
+    canonical: "/",
+  },
+
+icons: {
+  icon: [
+    { url: "/favicon.ico" },
+    { url: "/icon.png", type: "image/png", sizes: "192x192" },
+  ],
+  apple: "/icon.png",
+},
+
+  openGraph: {
+    title: "Aryan Pachandi",
+    siteName: "Aryan Pachandi",
+    url: "/",
+    type: "website",
+    description: "Full Stack Developer Portfolio",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Aryan Pachandi",
+    description: "Full Stack Developer Portfolio",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

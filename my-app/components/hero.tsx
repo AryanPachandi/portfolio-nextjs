@@ -77,10 +77,6 @@ export default function HeroSection() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
-
-    
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -506,6 +502,7 @@ export default function HeroSection() {
               src="IMG_0310-dithered_bbfelu"
               width={900}
               height={900}
+              sizes="(max-width: 768px) 70vw, 34vw"
               alt="Aryan Pachandi"
              className="portrait-img"
             />

@@ -1,13 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { useAudio } from "@/contexts/audio-context";
-import { GLSLHills } from "@/components/GLSLHills";
+
+const GLSLHills = dynamic(
+  () => import("@/components/GLSLHills").then((mod) => mod.GLSLHills),
+  { ssr: false, loading: () => null }
+);
 
 export default function WelcomeGate({ children }: { children: React.ReactNode }) {
   const { startAudio } = useAudio();
   const [entering, setEntering] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [shaderReady, setShaderReady] = useState(false);
+
+  useEffect(() => {
+    let timeoutId = 0;
+    const rafId = requestAnimationFrame(() => {
+      timeoutId = window.setTimeout(() => setShaderReady(true), 350);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
 
   const handleEnter = async () => {
     // This runs inside a real click handler — play() is guaranteed to succeed.
@@ -47,6 +65,17 @@ export default function WelcomeGate({ children }: { children: React.ReactNode })
           background: radial-gradient(circle, #EBE9FD 0%, transparent 70%);
           filter: blur(60px);
           pointer-events: none;
+        }
+
+        .welcome-hills {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          width: 100vw;
+          overflow: hidden;
+          pointer-events: none;
+          transform: translateX(-50%);
         }
 
         .welcome-content {
@@ -137,13 +166,17 @@ export default function WelcomeGate({ children }: { children: React.ReactNode })
 
       {!entered && (
         <div className={`welcome-gate ${entering ? "is-leaving" : ""}`}>
-            <GLSLHills />
+          {shaderReady && (
+            <div className="welcome-hills">
+              <GLSLHills speed={0.35} />
+            </div>
+          )}
           <div className="welcome-glow" />
           <div className="welcome-content">
             <span className="welcome-tag">Portfolio</span>
             <h1 className="welcome-title">Only a slave quantifies its existence through productivity</h1>
             <p className="welcome-sub">Sadly I am One of them</p>
-            <button className="enter-btn" onClick={handleEnter}>
+            <button className="enter-btn" type="button" onClick={handleEnter}>
               Enter
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -154,9 +187,11 @@ export default function WelcomeGate({ children }: { children: React.ReactNode })
         </div>
       )}
 
-      <div className={`portfolio-wrap ${entered ? "is-visible" : ""}`}>
-        {children}
-      </div>
+      {entered && (
+        <div className="portfolio-wrap is-visible">
+          {children}
+        </div>
+      )}
     </>
   );
 }

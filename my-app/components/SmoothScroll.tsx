@@ -1,32 +1,52 @@
 "use client";
-import Lenis from "lenis";
 import { useEffect } from "react";
 
 export default function SmoothScroll() {
   useEffect(() => {
-    const lenis = new Lenis();
+    let lenis: { raf: (time: number) => void; resize: () => void; destroy: () => void } | null = null;
+    let rafId = 0;
+    let idleId = 0;
+    let cancelled = false;
 
     function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      lenis?.raf(time);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 
-    // Re-measure scroll height whenever the document's size changes
-    // (images loading, fonts swapping, sections mounting, etc.)
-    const resizeObserver = new ResizeObserver(() => {
-      lenis.resize();
-    });
-    resizeObserver.observe(document.body);
+    let resizeObserver: ResizeObserver | null = null;
+    const loadLenis = async () => {
+      const { default: Lenis } = await import("lenis");
+      if (cancelled) return;
 
-    // Catch the "everything has fully loaded" moment too
-    const onLoad = () => lenis.resize();
+      lenis = new Lenis();
+      rafId = requestAnimationFrame(raf);
+
+      resizeObserver = new ResizeObserver(() => {
+        lenis?.resize();
+      });
+      resizeObserver.observe(document.body);
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(loadLenis, { timeout: 1800 });
+    } else {
+      idleId = window.setTimeout(loadLenis, 1200);
+    }
+
+    const onLoad = () => lenis?.resize();
     window.addEventListener("load", onLoad);
 
     return () => {
-      resizeObserver.disconnect();
+      cancelled = true;
+      if (typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      } else {
+        window.clearTimeout(idleId);
+      }
+      cancelAnimationFrame(rafId);
+      resizeObserver?.disconnect();
       window.removeEventListener("load", onLoad);
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, []);
 
