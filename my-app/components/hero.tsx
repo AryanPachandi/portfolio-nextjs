@@ -130,7 +130,7 @@ export default function HeroSection() {
           bottom: 14%; left: 8%;
           transition: transform 0.18s ease-out;
         }
-
+        
      
 
         /* Main content */
