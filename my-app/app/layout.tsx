@@ -38,25 +38,6 @@ export const metadata: Metadata = {
 
   applicationName: "Aryan Pachandi",
 
-  keywords: [
-    "Aryan Pachandi",
-    "Aryan",
-    "Pachandi",
-    "Full Stack Developer",
-    "MERN Stack Developer",
-    "Next.js Developer",
-    "React Developer",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "PostgreSQL",
-    "TypeScript",
-    "JavaScript",
-    "Portfolio",
-    "Software Engineer",
-    "Web Developer",
-  ],
-
   authors: [
     {
       name: "Aryan Pachandi",
@@ -128,6 +109,65 @@ export const metadata: Metadata = {
   },
 
   category: "technology",
+
+  // Uncomment and fill in once you've verified ownership in
+  // Google Search Console / Bing Webmaster Tools
+  // verification: {
+  //   google: "xxxxxxxx",
+  // },
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://aryanpachandi.space/#person",
+
+  name: "Aryan Pachandi",
+
+  url: "https://aryanpachandi.space",
+
+  image: "https://aryanpachandi.space/og-image.png",
+
+  jobTitle: "Full Stack Developer",
+
+  description:
+    "Full Stack Developer specializing in Next.js, React, Node.js, Express.js, MongoDB, PostgreSQL and TypeScript.",
+
+  knowsAbout: [
+    "Next.js",
+    "React",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "PostgreSQL",
+    "TypeScript",
+    "JavaScript",
+    "Tailwind CSS",
+    "REST APIs",
+    "JWT Authentication",
+    "Prisma",
+  ],
+
+  sameAs: [
+    "https://github.com/AryanPachandi",
+    "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/",
+    "https://x.com/AryanPachandi",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+
+  url: "https://aryanpachandi.space",
+
+  name: "Aryan Pachandi",
+
+  description: "Portfolio of Aryan Pachandi, Full Stack Developer.",
+
+  author: {
+    "@id": "https://aryanpachandi.space/#person",
+  },
 };
 
 export default function RootLayout({
@@ -150,6 +190,13 @@ export default function RootLayout({
       )}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([personSchema, websiteSchema]),
+          }}
+        />
+
         <SmoothScroll />
 
         <ThemeProvider
