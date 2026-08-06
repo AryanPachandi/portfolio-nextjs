@@ -400,7 +400,7 @@ export default function Footer() {
           <div>
             <p className="footer-col-label">Direct</p>
             <div className="footer-col-list">
-              <a href="mailto:hello@aryanpachandi.dev">pachandiaryan@gmail.com</a>
+              <a href="mailto:givemejob@aryanpachandi.space">givemejob@aryanpachandi.space</a>
               <a href="tel:+910000000000">+91 8468913733</a>
             </div>
           </div>
