@@ -1,12 +1,12 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(process.env.RESEND_API_KEY);
 
-type ContactPayload = {
-  name?: unknown;
-  email?: unknown;
-  message?: unknown;
-};
+export const RESEND_FROM = "Aryan Pachandi <getmejob@aryanpachandi.space>";
+export const CONTACT_RECIPIENT = "pachandiaryan@gmail.com";
+export const PORTFOLIO_URL = "https://aryanpachandi.space";
+export const GITHUB_URL = "https://github.com/AryanPachandi";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/";
 
 function escapeHtml(value: string) {
   return value
@@ -17,7 +17,7 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
-function buildNotificationEmailHtml(name: string, email: string, message: string) {
+export function buildNotificationEmailHtml(name: string, email: string, message: string) {
   return `
     <div style="font-family: Arial, sans-serif; background:#f7f7f7; padding:24px; color:#111827;">
       <div style="max-width:640px; margin:0 auto; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden;">
@@ -40,7 +40,7 @@ function buildNotificationEmailHtml(name: string, email: string, message: string
   `;
 }
 
-function buildAutoReplyEmailHtml(name: string) {
+export function buildAutoReplyEmailHtml(name: string) {
   return `
     <div style="font-family: Arial, sans-serif; background:#f7f7f7; padding:24px; color:#111827;">
       <div style="max-width:640px; margin:0 auto; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden;">
@@ -58,9 +58,9 @@ function buildAutoReplyEmailHtml(name: string) {
           <p style="margin:0; font-size:16px; font-weight:600;">Aryan Pachandi</p>
           <p style="margin:0; font-size:14px; color:#6b7280;">Full Stack Developer</p>
           <div style="margin-top:24px; padding-top:16px; border-top:1px solid #e5e7eb;">
-            <p style="margin:0 0 8px; font-size:14px;"><strong>Portfolio:</strong> <a href="https://aryanpachandi.space" style="color:#2563eb;">https://aryanpachandi.space</a></p>
-            <p style="margin:0 0 8px; font-size:14px;"><strong>GitHub:</strong> <a href="https://github.com/AryanPachandi" style="color:#2563eb;">https://github.com/AryanPachandi</a></p>
-            <p style="margin:0; font-size:14px;"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/" style="color:#2563eb;">https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/</a></p>
+            <p style="margin:0 0 8px; font-size:14px;"><strong>Portfolio:</strong> <a href="${PORTFOLIO_URL}" style="color:#2563eb;">${PORTFOLIO_URL}</a></p>
+            <p style="margin:0 0 8px; font-size:14px;"><strong>GitHub:</strong> <a href="${GITHUB_URL}" style="color:#2563eb;">${GITHUB_URL}</a></p>
+            <p style="margin:0; font-size:14px;"><strong>LinkedIn:</strong> <a href="${LINKEDIN_URL}" style="color:#2563eb;">${LINKEDIN_URL}</a></p>
           </div>
         </div>
         <div style="padding:0 32px 24px; color:#6b7280; font-size:12px; text-align:center;">
@@ -71,50 +71,33 @@ function buildAutoReplyEmailHtml(name: string) {
   `;
 }
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
-}
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-export async function POST(req: Request) {
-  try {
-    const payload = (await req.json()) as ContactPayload;
-    const name = typeof payload.name === "string" ? payload.name.trim() : "";
-    const email = typeof payload.email === "string" ? payload.email.trim() : "";
-    const message = typeof payload.message === "string" ? payload.message.trim() : "";
-
-    if (!isNonEmptyString(payload.name) || !isNonEmptyString(payload.email) || !isNonEmptyString(payload.message)) {
-      return Response.json({ error: "Missing required fields." }, { status: 400 });
-    }
-
-    if (!isValidEmail(email)) {
-      return Response.json({ error: "Invalid email address." }, { status: 400 });
-    }
-
-    await resend.emails.send({
-      from: "Aryan Pachandi <getmejob@aryanpachandi.space>",
-      to: "pachandiaryan@gmail.com",
-      subject: `New Portfolio Message from ${name}`,
-      html: buildNotificationEmailHtml(name, email, message),
-    });
-
-    try {
-      await resend.emails.send({
-        from: "Aryan Pachandi <getmejob@aryanpachandi.space>",
-        to: email,
-        subject: "Thanks for reaching out — Aryan Pachandi",
-        html: buildAutoReplyEmailHtml(name),
-      });
-    } catch (autoReplyError) {
-      console.error("Auto-reply email failed:", autoReplyError);
-    }
-
-    return Response.json({ success: true });
-  } catch (error) {
-    console.error("Contact form submission failed:", error);
-    return Response.json({ error }, { status: 500 });
-  }
+export function buildWelcomeEmailHtml(name: string) {
+  return `
+    <div style="font-family: Arial, sans-serif; background:#f7f7f7; padding:24px; color:#111827;">
+      <div style="max-width:640px; margin:0 auto; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden;">
+        <div style="background:linear-gradient(135deg, #f5f5f5 0%, #5b4bff 100%); padding:24px 32px; color:#ffffff;">
+          <h2 style="margin:0 0 8px; font-size:24px;">You made it. 👋</h2>
+          <p style="margin:0; font-size:14px; opacity:0.9;">Thanks for staying connected with my portfolio.</p>
+        </div>
+        <div style="padding:32px;">
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">Hi ${escapeHtml(name)},</p>
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">Thanks for stopping by my portfolio. Most people visit, scroll, and leave. You decided to stay connected.</p>
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">That genuinely means a lot.</p>
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">Here are a few places where we can connect:</p>
+          <ul style="margin:0 0 16px 20px; padding:0; font-size:16px; line-height:1.8;">
+            <li><strong>Portfolio:</strong> <a href="${PORTFOLIO_URL}" style="color:#2563eb;">${PORTFOLIO_URL}</a></li>
+            <li><strong>GitHub:</strong> <a href="${GITHUB_URL}" style="color:#2563eb;">${GITHUB_URL}</a></li>
+            <li><strong>LinkedIn:</strong> <a href="${LINKEDIN_URL}" style="color:#2563eb;">${LINKEDIN_URL}</a></li>
+          </ul>
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">If you're hiring, building something exciting, or just want to talk tech, I'd love to hear from you.</p>
+          <p style="margin:0 0 12px; font-size:16px; line-height:1.7;">Hope we build something amazing together.</p>
+          <p style="margin:0 0 4px; font-size:16px;">Aryan Pachandi</p>
+          <p style="margin:0; font-size:14px; color:#6b7280;">Full Stack Developer</p>
+        </div>
+        <div style="padding:0 32px 24px; color:#6b7280; font-size:12px; text-align:center;">
+          <p style="margin:0;">You received this because you chose to stay connected through my portfolio.</p>
+        </div>
+      </div>
+    </div>
+  `;
 }
