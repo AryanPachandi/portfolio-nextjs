@@ -355,8 +355,8 @@ export default function Footer() {
           </h2>
 
           <div className="footer-cta-row">
-            <a ref={ctaRef} href="mailto:pachandiaryan@gmail.com" className="footer-cta-link">
-              pachandiaryan@gmail.com
+            <a ref={ctaRef} href="mailto:givemejob@aryanpachandi.space" className="footer-cta-link">
+              givemejob@aryanpachandi.space
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M7 17L17 7M17 7H10M17 7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -400,8 +400,13 @@ export default function Footer() {
           <div>
             <p className="footer-col-label">Direct</p>
             <div className="footer-col-list">
-              <a href="mailto:givemejob@aryanpachandi.space">givemejob@aryanpachandi.space</a>
-              <a href="tel:+910000000000">+91 8468913733</a>
+              <a
+  href="mailto:givemejob@aryanpachandi.space"
+  title="givemejob@aryanpachandi.space"
+>
+  Email me
+</a>
+              <a href="tel:+918468913733">+91 8468913733</a>
             </div>
           </div>
         </div>
