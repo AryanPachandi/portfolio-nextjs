@@ -24,9 +24,16 @@ const skills = [
 const timeline = [
   {
     year: "2026",
-    role: "Backend Developer Intern",
-    place: "Atorix : Onsite", 
+    role: "Web Developer Intern",
+    place: "Bee Creatives",
     current: true,
+
+  },
+  {
+    year: "2026",
+    role: "Backend Developer (Contributor)",
+    place: "Atorix", 
+    // current: true,
   },
   {
     year: "2025",
