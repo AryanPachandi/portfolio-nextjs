@@ -9,19 +9,25 @@ const sitemap = [
   { label: "Contact", href: "#contact" },
 ];
 
-const socials = [
-  { label: "GitHub", href: "https://github.com/AryanPachandi/" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/" },
-  { label: "Twitter", href: "https://x.com/AryanPachandi" },
-  // { label: "Dribbble", href: "#" },
-];
+interface FooterProps {
+  settings?: any;
+  socials?: any[];
+}
 
-export default function Footer() {
+export default function Footer({ settings, socials: rawSocials }: FooterProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const [visible, setVisible] = useState(false);
   const [time, setTime] = useState("");
-                                                                  
+
+  const socials = rawSocials && rawSocials.length > 0
+    ? rawSocials.map((s) => ({ label: s.name, href: s.url }))
+    : [
+        { label: "GitHub", href: "https://github.com/AryanPachandi/" },
+        { label: "LinkedIn", href: "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/" },
+        { label: "Twitter", href: "https://x.com/AryanPachandi" },
+      ];
+
   // Scroll reveal
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -76,10 +82,14 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const email = settings?.email || "givemejob@aryanpachandi.space";
+  const phone = settings?.phone || "+91 8468913733";
+  const location = settings?.location || "Pune, India";
+  const status = settings?.status || "Available for work";
+
   return (
     <>
       <style>{`
-
         .footer {
           position: relative;
           padding: 9rem 6vw 0;
@@ -108,14 +118,15 @@ export default function Footer() {
           display: flex;
           align-items: center;
           gap: 0.9rem;
-          margin-bottom: 3rem;
-          position: relative;
-          z-index: 1;
+          margin-bottom: 3.5rem;
           opacity: 0;
           transform: translateY(20px);
           transition: opacity 0.7s ease, transform 0.7s ease;
+          position: relative;
+          z-index: 1;
         }
         .footer-eyebrow.vis { opacity: 1; transform: translateY(0); }
+
         .eyebrow-line { width: 36px; height: 1px; background: var(--brand-accent); }
         .eyebrow-label {
           font-size: 0.7rem;
@@ -127,16 +138,14 @@ export default function Footer() {
         .eyebrow-num {
           margin-left: auto;
           font-size: 0.7rem;
-          color: #C7C5C2;
+          color: #A8A6A2;
           letter-spacing: 0.05em;
         }
 
-        /* CTA block */
         .footer-cta-block {
           position: relative;
           z-index: 1;
-          padding-bottom: 5rem;
-          border-bottom: 1px solid #E3E1DD;
+          margin-bottom: 7rem;
           opacity: 0;
           transform: translateY(28px);
           transition: opacity 0.8s 0.1s ease, transform 0.8s 0.1s ease;
@@ -147,116 +156,115 @@ export default function Footer() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: var(--brand-accent-light);
-          color: var(--brand-accent);
           font-size: 0.75rem;
           font-weight: 500;
-          padding: 0.35rem 0.9rem;
+          color: var(--ink-soft);
+          background: #EBE9E4;
+          padding: 0.35rem 0.85rem;
           border-radius: 100px;
-          margin-bottom: 1.8rem;
-          letter-spacing: 0.02em;
+          margin-bottom: 2rem;
         }
+
         .status-dot {
-          width: 7px; height: 7px;
-          background: var(--brand-accent);
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
-          animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.4); opacity: 0.6; }
+          background: #10B981;
+          animation: pulse 2s infinite;
         }
 
         .footer-heading {
-          font-size: clamp(40px, 6.5vw, 84px);
+          font-size: clamp(40px, 7vw, 96px);
           font-weight: 800;
-          letter-spacing: -0.035em;
-          line-height: 1;
+          letter-spacing: -0.04em;
+          line-height: 0.98;
           color: var(--ink);
-          max-width: 760px;
+          margin-bottom: 3rem;
         }
         .footer-heading em {
           font-style: normal;
-          color: transparent;
-          -webkit-text-stroke: 1.5px var(--ink);
+          color: var(--brand-accent);
         }
 
         .footer-cta-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          flex-wrap: wrap;
           gap: 2rem;
-          margin-top: 2.6rem;
+          flex-wrap: wrap;
         }
 
         .footer-cta-link {
           display: inline-flex;
           align-items: center;
           gap: 0.8rem;
+          font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+          font-weight: 700;
+          letter-spacing: -0.02em;
           color: var(--ink);
-          font-size: clamp(1.1rem, 2vw, 1.5rem);
-          font-weight: 600;
-          letter-spacing: -0.01em;
           text-decoration: none;
-          transition: color 0.2s;
+          padding: 1.1rem 2.2rem;
+          background: var(--white);
+          border-radius: 100px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+          transition: background 0.25s, color 0.25s, transform 0.15s ease-out;
         }
-        .footer-cta-link:hover { color: var(--brand-accent); }
+        .footer-cta-link:hover {
+          background: var(--brand-accent);
+          color: #fff;
+        }
         .footer-cta-link svg {
-          width: 38px;
-          height: 38px;
-          flex-shrink: 0;
-          border-radius: 50%;
-          background: var(--ink);
-          color: var(--white);
-          padding: 11px;
-          box-sizing: border-box;
-          transition: background 0.2s, transform 0.15s;
+          width: 22px;
+          height: 22px;
+          transition: transform 0.25s ease;
         }
-        .footer-cta-link:hover svg { background: var(--brand-accent); }
+        .footer-cta-link:hover svg {
+          transform: translate(3px, -3px);
+        }
 
         .footer-local-time {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          font-size: 0.78rem;
+          font-size: 0.82rem;
           color: var(--ink-soft);
-          letter-spacing: 0.02em;
           font-weight: 400;
+        }
+        .time-dot {
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+          background: var(--ink-soft);
         }
         .footer-local-time strong {
           color: var(--ink);
           font-weight: 600;
         }
-        .time-dot {
-          width: 5px; height: 5px;
-          border-radius: 50%;
-          background: var(--ink-soft);
-        }
 
-        /* Columns */
         .footer-columns {
-          display: grid;
-          grid-template-columns: 1.4fr 1fr 1fr 1fr;
-          gap: 2rem;
-          padding: 4rem 0 4rem;
           position: relative;
           z-index: 1;
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr 1.2fr;
+          gap: 3rem;
+          padding-bottom: 5rem;
+          border-bottom: 1px solid #E3E1DD;
           opacity: 0;
-          transform: translateY(24px);
-          transition: opacity 0.8s 0.2s ease, transform 0.8s 0.2s ease;
+          transform: translateY(20px);
+          transition: opacity 0.8s 0.25s ease, transform 0.8s 0.25s ease;
         }
         .footer-columns.vis { opacity: 1; transform: translateY(0); }
 
         .footer-brand-name {
-          font-size: 1.05rem;
-          font-weight: 600;
+          font-size: 1.1rem;
+          font-weight: 800;
+          letter-spacing: -0.03em;
           color: var(--ink);
-          letter-spacing: -0.01em;
+          margin-bottom: 0.8rem;
         }
         .footer-brand-name span { color: var(--brand-accent); }
+
         .footer-brand-desc {
-          margin-top: 0.8rem;
           font-size: 0.82rem;
           line-height: 1.7;
           color: var(--ink-soft);
@@ -265,38 +273,36 @@ export default function Footer() {
         }
 
         .footer-col-label {
-          font-size: 0.68rem;
-          font-weight: 500;
-          letter-spacing: 0.12em;
+          font-size: 0.7rem;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: #B7B5B1;
-          margin-bottom: 1.1rem;
+          font-weight: 600;
+          color: var(--ink-soft);
+          margin-bottom: 1.2rem;
         }
+
         .footer-col-list {
           display: flex;
           flex-direction: column;
-          gap: 0.7rem;
+          gap: 0.65rem;
         }
+
         .footer-col-list a {
-          font-size: 0.85rem;
-          color: var(--ink-soft);
+          font-size: 0.84rem;
+          color: var(--ink);
           text-decoration: none;
           font-weight: 400;
-          transition: color 0.2s;
-          width: fit-content;
+          transition: color 0.18s;
         }
         .footer-col-list a:hover { color: var(--brand-accent); }
 
-        /* Bottom bar */
         .footer-bottom {
           position: relative;
           z-index: 1;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 1rem;
-          flex-wrap: wrap;
-          padding: 1.8rem 0;
+          padding: 2.2rem 0;
           border-top: 1px solid #E3E1DD;
         }
         .footer-copyright {
@@ -304,7 +310,7 @@ export default function Footer() {
           color: #A8A6A2;
           letter-spacing: 0.01em;
         }
-          
+
         .back-to-top {
           display: inline-flex;
           align-items: center;
@@ -329,8 +335,7 @@ export default function Footer() {
           .footer-columns { grid-template-columns: 1fr 1fr; row-gap: 2.4rem; }
           .footer-cta-row { flex-direction: column; align-items: flex-start; }
           .eyebrow-num { display: none; }
-          }
-        
+        }
       `}</style>
 
       <footer className="footer" id="contact" ref={sectionRef}>
@@ -345,26 +350,24 @@ export default function Footer() {
         <div className={`footer-cta-block ${visible ? "vis" : ""}`}>
           <div className="footer-status-pill">
             <span className="status-dot" />
-            Available for work
+            {status}
           </div>
 
           <h2 className="footer-heading">
             Let's build<br />
             something <em>great</em>.
-            
           </h2>
 
           <div className="footer-cta-row">
-            <a ref={ctaRef} href="mailto:givemejob@aryanpachandi.space" className="footer-cta-link">
-              givemejob@aryanpachandi.space
+            <a ref={ctaRef} href={`mailto:${email}`} className="footer-cta-link">
+              {email}
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M7 17L17 7M17 7H10M17 7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
-            
-            <div className="footer-local-time">
 
-              <span>Pune, India</span>
+            <div className="footer-local-time">
+              <span>{location}</span>
               <span className="time-dot" />
               <span>Local time <strong>{time}</strong></span>
             </div>
@@ -387,12 +390,12 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          
+
           <div>
             <p className="footer-col-label">Connect</p>
             <div className="footer-col-list">
               {socials.map((s) => (
-                <a key={s.label} href={s.href}>{s.label}</a>
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
               ))}
             </div>
           </div>
@@ -400,19 +403,14 @@ export default function Footer() {
           <div>
             <p className="footer-col-label">Direct</p>
             <div className="footer-col-list">
-              <a
-  href="mailto:givemejob@aryanpachandi.space"
-  title="givemejob@aryanpachandi.space"
->
-  Email me
-</a>
-              <a href="tel:+918468913733">+91 8468913733</a>
+              <a href={`mailto:${email}`} title={email}>Email me</a>
+              <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <span className="footer-copyright">© 2026 Aryan Pachandi. All rights reserved.</span>
+          <span className="footer-copyright">© {new Date().getFullYear()} Aryan Pachandi. All rights reserved.</span>
           <button className="back-to-top" onClick={scrollToTop}>
             Back to top
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

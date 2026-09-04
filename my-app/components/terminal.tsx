@@ -43,7 +43,7 @@ export default function ContactSection() {
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
-
+  
   // Scroll reveal
   useEffect(() => {
     const observer = new IntersectionObserver(

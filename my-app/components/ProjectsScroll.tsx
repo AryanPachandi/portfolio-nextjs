@@ -2,87 +2,88 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Project = {
-  id: number;
-  number: string;
-  title: string;
-  category: string;
-  year: string;
-  tags: string[];
-  description: string;
-  link: string;
-  code: string;
-  gradient: string;
-};
+interface ProjectsScrollProps {
+  projects?: any[];
+}
 
-const projects: Project[] = [
-  {
-    id: 1,
-    number: "01",
-    title: "Pac Wallet",
-    category: "FinTech Backend",
-    year: "2026",
-    tags: ["Node.js", "Express.js", "MongoDB", "JWT"],
-    description:
-      "A digital wallet backend featuring secure authentication, account management, transaction tracking, and cookie-based JWT authorization.",
-    link: "https://github.com/AryanPachandi/Pac-Wallet",
-    code: "https://github.com/AryanPachandi/Pac-Wallet",
-    gradient: "linear-gradient(135deg, #4F3FF0 0%, #8B7FF7 100%)",
-  },
-
-  {
-    id: 2,
-    number: "02",
-    title: "APT Authentication System",
-    category: "Backend",
-    year: "2025",
-    tags: ["Node.js", "Express.js", "JWT", "REST API"],
-    description:
-      "Built a complete authentication system with registration, login, protected routes, role-based access, and secure token handling.",
-    link: "https://www.npmjs.com/package/pachanditoken",
-    code: "#",
-    gradient: "linear-gradient(135deg, #0A0A0A 0%, #4A4A4A 100%)",
-  },
-
-  {
-    id: 3,
-    number: "03",
-    title: "CritIndia CRM Backend",
-    category: "Internship Project",
-    year: "2026",
-    tags: ["Node.js", "PostgreSQL", "Prisma", "REST API"],
-    description:
-      "Developed and maintained backend services for CritIndia, creating APIs, fixing production issues, and improving CRM workflows during my internship at Atorix.",
-    link: "https://critindia.com",
-    code: "#",
-    gradient: "linear-gradient(135deg, #DDD9FC 0%, #4F3FF0 100%)",
-  },
-
-  {
-    id: 4,
-    number: "04",
-    title: "ConnectingDots ERP",
-    category: "Enterprise Software",
-    year: "2026",
-    tags: ["Next.js", "Node.js", "PostgreSQL", "Prisma"],
-    description:
-      "Contributed to ERP modules, backend routes, bug fixes, and feature development for a business management platform used by organizations.",
-    link: "https://connectingdotserp.com",
-    code: "#",
-    gradient: "linear-gradient(135deg, #2B2640 0%, #4F3FF0 100%)",
-  },
-];
-
-const categories = ["All", "Web App", "Design"] as const;
-
-export default function ProjectsSrcoll() {
+export default function ProjectsScroll({ projects: initialProjects }: ProjectsScrollProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const [visible, setVisible] = useState(false);
-  const [filter, setFilter] = useState<(typeof categories)[number]>("All");
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [filter, setFilter] = useState<string>("All");
+  const [hovered, setHovered] = useState<string | number | null>(null);
+
+  const projects = initialProjects && initialProjects.length > 0
+    ? initialProjects.map((p) => ({
+        id: p.id,
+        number: p.number || "01",
+        title: p.title,
+        category: p.category || "Web App",
+        year: p.year || "2026",
+        tags: typeof p.tags === "string" ? p.tags.split(",").map((t: string) => t.trim()).filter(Boolean) : p.tags,
+        description: p.description,
+        link: p.liveUrl || p.githubUrl || "#",
+        code: p.githubUrl || "#",
+        gradient: p.gradient || "linear-gradient(135deg, #4F3FF0 0%, #8B7FF7 100%)",
+      }))
+    : [
+        {
+          id: "1",
+          number: "01",
+          title: "Pac Wallet",
+          category: "FinTech Backend",
+          year: "2026",
+          tags: ["Node.js", "Express.js", "MongoDB", "JWT"],
+          description:
+            "A digital wallet backend featuring secure authentication, account management, transaction tracking, and cookie-based JWT authorization.",
+          link: "https://github.com/AryanPachandi/Pac-Wallet",
+          code: "https://github.com/AryanPachandi/Pac-Wallet",
+          gradient: "linear-gradient(135deg, #4F3FF0 0%, #8B7FF7 100%)",
+        },
+        {
+          id: "2",
+          number: "02",
+          title: "APT Authentication System",
+          category: "Backend",
+          year: "2025",
+          tags: ["Node.js", "Express.js", "JWT", "REST API"],
+          description:
+            "Built a complete authentication system with registration, login, protected routes, role-based access, and secure token handling.",
+          link: "https://www.npmjs.com/package/pachanditoken",
+          code: "#",
+          gradient: "linear-gradient(135deg, #0A0A0A 0%, #4A4A4A 100%)",
+        },
+        {
+          id: "3",
+          number: "03",
+          title: "CritIndia CRM Backend",
+          category: "Internship Project",
+          year: "2026",
+          tags: ["Node.js", "PostgreSQL", "Prisma", "REST API"],
+          description:
+            "Developed and maintained backend services for CritIndia, creating APIs, fixing production issues, and improving CRM workflows during my internship at Atorix.",
+          link: "https://critindia.com",
+          code: "#",
+          gradient: "linear-gradient(135deg, #DDD9FC 0%, #4F3FF0 100%)",
+        },
+        {
+          id: "4",
+          number: "04",
+          title: "ConnectingDots ERP",
+          category: "Enterprise Software",
+          year: "2026",
+          tags: ["Next.js", "Node.js", "PostgreSQL", "Prisma"],
+          description:
+            "Contributed to ERP modules, backend routes, bug fixes, and feature development for a business management platform used by organizations.",
+          link: "https://connectingdotserp.com",
+          code: "#",
+          gradient: "linear-gradient(135deg, #2B2640 0%, #4F3FF0 100%)",
+        },
+      ];
+
+  const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))];
 
   const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
@@ -114,8 +115,6 @@ export default function ProjectsSrcoll() {
   return (
     <>
       <style>{`
-
-
         .projects {
           position: relative;
           padding: 9rem 6vw 8rem;
@@ -204,7 +203,6 @@ export default function ProjectsSrcoll() {
           font-weight: 300;
         }
 
-        /* Filter tabs */
         .filter-tabs {
           display: flex;
           gap: 0.6rem;
@@ -237,7 +235,6 @@ export default function ProjectsSrcoll() {
           border-color: var(--brand-accent-light);
         }
 
-        /* Project list */
         .project-list {
           position: relative;
           z-index: 1;
@@ -326,7 +323,6 @@ export default function ProjectsSrcoll() {
           color: var(--brand-accent);
         }
 
-        /* Cursor-following preview */
         .project-preview {
           position: fixed;
           top: 0;
@@ -357,35 +353,12 @@ export default function ProjectsSrcoll() {
           letter-spacing: -0.04em;
         }
 
-        /* Bottom CTA */
-        .projects-footer-cta {
-          margin-top: 3.5rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 1rem;
-          position: relative;
-          z-index: 1;
-        }
         .projects-footer-text {
           font-size: 0.85rem;
           color: var(--ink-soft);
           font-weight: 300;
+          margin-top: 2.5rem;
         }
-        .projects-footer-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          color: var(--ink);
-          font-size: 0.85rem;
-          font-weight: 500;
-          text-decoration: none;
-          border-bottom: 1px solid var(--ink);
-          padding-bottom: 1px;
-          transition: color 0.2s, border-color 0.2s;
-        }
-        .projects-footer-link:hover { color: var(--brand-accent); border-color: var(--brand-accent); }
 
         @media (max-width: 768px) {
           .projects-ghost { display: none; }
@@ -436,6 +409,8 @@ export default function ProjectsSrcoll() {
             <a
               key={p.id}
               href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="project-row"
               onMouseEnter={() => setHovered(p.id)}
               onMouseLeave={() => setHovered(null)}
@@ -446,7 +421,7 @@ export default function ProjectsSrcoll() {
                 <div className="project-desc">{p.description}</div>
               </div>
               <div className="project-tags">
-                {p.tags.map((t) => (
+                {Array.isArray(p.tags) && p.tags.map((t: string) => (
                   <span className="project-tag" key={t}>{t}</span>
                 ))}
               </div>
@@ -457,18 +432,8 @@ export default function ProjectsSrcoll() {
             </a>
           ))}
         </div>
-            <p className="projects-footer-text">Have something in mind that's not on this list?</p>
-        {/* <div className="projects-footer-cta">
-          <p className="projects-footer-text">Have something in mind that's not on this list?</p>
-          <a href="#contact" className="projects-footer-link">
-            Let's talk
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-        </div> */}
+        <p className="projects-footer-text">Have something in mind that's not on this list?</p>
 
-        {/* Floating cursor preview */}
         <div className={`project-preview ${hovered !== null ? "show" : ""}`} ref={previewRef}>
           {(() => {
             const active = projects.find((p) => p.id === hovered);

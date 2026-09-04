@@ -1,36 +1,42 @@
+import { getPortfolioData } from "@/lib/data";
 import Hero from "@/components/hero";
-
-import  ProjectsScroll  from "@/components/ProjectsScroll";
+import ProjectsScroll from "@/components/ProjectsScroll";
 import Footer from "@/components/footer";
-
-import AboutSection from "@/components/aboutme"
-
+import AboutSection from "@/components/aboutme";
 import TerminalContact from "@/components/terminal";
 import ExitIntentCapture from "@/components/exit-intent-capture";
-import MusicPlayer from "@/components/musicplayer";
 
-export default function Home() {
+export const revalidate = 0; // Ensure live updates on portfolio changes
+
+export default async function Home() {
+  const { settings, socials, projects, experiences, skills, education } = await getPortfolioData();
+
   return (
     <>
-      {/* <MusicPlayer /> */}
       <ExitIntentCapture />
+
       <section id="hero">
-        <Hero />
+        <Hero settings={settings} socials={socials} />
       </section>
 
       <section id="about">
-        <AboutSection />
+        <AboutSection
+          settings={settings}
+          experiences={experiences}
+          skills={skills}
+          education={education}
+        />
       </section>
 
       <section id="work">
-        <ProjectsScroll />
+        <ProjectsScroll projects={projects} />
       </section>
 
       <section id="contact">
         <TerminalContact />
       </section>
 
-      <Footer />
+      <Footer settings={settings} socials={socials} />
     </>
   );
 }

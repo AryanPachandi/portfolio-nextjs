@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import DitherShaderDemo from "@/components/dither-shader-demo";
 import { CldImage } from "next-cloudinary";
 
-export default function HeroSection() {
+interface HeroProps {
+  settings?: any;
+  socials?: any[];
+}
+
+export default function HeroSection({ settings, socials }: HeroProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorRole, setCursorRole] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -74,6 +79,9 @@ export default function HeroSection() {
     };
   }, []);
 
+  const profileImg = settings?.profileImage || "IMG_0310-dithered_bbfelu";
+  const isCloudinaryPublicId = !profileImg.startsWith("http") && !profileImg.startsWith("data:");
+
   return (
     <>
       <style>{`
@@ -97,106 +105,109 @@ export default function HeroSection() {
           overflow: hidden;
         }
 
-        /* Ghost name in background */
         .ghost-name {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          font-size: clamp(80px, 16vw, 220px);
+          font-size: clamp(120px, 22vw, 320px);
           font-weight: 900;
-          letter-spacing: -0.04em;
+          letter-spacing: -0.05em;
           color: transparent;
-          -webkit-text-stroke: 1.5px var(--ghost-stroke);
-          white-space: nowrap;
+          -webkit-text-stroke: 1px var(--ghost-stroke);
           pointer-events: none;
           user-select: none;
-          transition: transform 0.12s ease-out;
-          font-family: 'Inter', sans-serif;
           z-index: 0;
+          white-space: nowrap;
+          transition: transform 0.1s ease-out;
         }
 
-        /* Floating accent blob */
         .blob {
           position: absolute;
           border-radius: 50%;
-          filter: blur(60px);
+          filter: blur(80px);
           pointer-events: none;
           z-index: 0;
         }
-        .blob-2 {
-          width: 200px; height: 200px;
+        .blob-1 {
+          width: 500px;
+          height: 500px;
           background: radial-gradient(circle, var(--brand-accent-glow) 0%, transparent 70%);
-          bottom: 14%; left: 8%;
-          transition: transform 0.18s ease-out;
+          top: -100px;
+          right: -100px;
         }
-        
-     
+        .blob-2 {
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+          bottom: -50px;
+          left: -50px;
+        }
 
-        /* Main content */
         .hero-content {
           position: relative;
           z-index: 2;
           max-width: 620px;
-          flex-shrink: 1;
-          animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+          padding-top: 2rem;
         }
 
         .status-pill {
           display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
-          background: var(--brand-accent-light);
-          color: var(--brand-accent);
-          font-size: 0.75rem;
-          font-weight: 500;
-          padding: 0.35rem 0.9rem;
+          gap: 0.55rem;
+          background: var(--pill-bg);
+          border: 1px solid var(--pill-border);
+          padding: 0.38rem 0.9rem;
           border-radius: 100px;
-          margin-bottom: 2rem;
+          font-size: 0.78rem;
+          font-weight: 500;
+          color: var(--ink-soft);
           letter-spacing: 0.02em;
-          animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+          margin-bottom: 2rem;
+          animation: fadeUp 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
         }
         .status-dot {
-          width: 7px; height: 7px;
-          background: var(--brand-accent);
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
-          animation: pulse 2s ease-in-out infinite;
+          background: #10B981;
+          animation: pulse 2s infinite;
         }
 
         .hero-name {
-          font-size: clamp(48px, 7.5vw, 96px);
+          font-size: clamp(2.8rem, 6.2vw, 5.2rem);
           font-weight: 800;
-          letter-spacing: -0.035em;
-          line-height: 0.95;
+          line-height: 1.02;
+          letter-spacing: -0.04em;
           color: var(--ink);
-          animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+          margin-bottom: 1.4rem;
+          animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
         }
-        .hero-name .accent-char { color: var(--brand-accent); }
+        .accent-char {
+          color: var(--brand-accent);
+          display: inline-block;
+        }
 
         .hero-role {
-          margin-top: 1.4rem;
-          font-size: clamp(1rem, 1.8vw, 1.25rem);
-          font-weight: 300;
+          font-size: clamp(1.1rem, 2vw, 1.5rem);
+          font-weight: 400;
           color: var(--ink-soft);
-          min-height: 2rem;
-          display: flex;
-          align-items: center;
-          gap: 0.15em;
+          margin-bottom: 1.6rem;
+          min-height: 2.2rem;
           letter-spacing: -0.01em;
           animation: fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
         }
         .cursor-blink {
           display: inline-block;
           width: 2px;
-          height: 1.1em;
+          height: 1.2em;
           background: var(--brand-accent);
-          border-radius: 2px;
-          animation: blink 1s step-end infinite;
+          margin-left: 3px;
           vertical-align: middle;
+          animation: blink 0.8s infinite;
         }
 
         .hero-bio {
-          margin-top: 1.6rem;
           max-width: 480px;
           font-size: clamp(0.88rem, 1.2vw, 1rem);
           line-height: 1.75;
@@ -213,11 +224,9 @@ export default function HeroSection() {
           flex-wrap: wrap;
           animation: fadeUp 0.9s 0.55s cubic-bezier(0.16,1,0.3,1) both;
         }
-          @media (max-width: 768px) {
-         .hero-actions {
-          display: none;
-           }
-          }
+        @media (max-width: 768px) {
+          .hero-actions { display: none; }
+        }
 
         .btn-primary {
           display: inline-flex;
@@ -253,7 +262,6 @@ export default function HeroSection() {
           border-color: var(--ink);
         }
 
-        /* Portrait, right side */
         .hero-visual {
           position: relative;
           z-index: 2;
@@ -282,9 +290,7 @@ export default function HeroSection() {
           aspect-ratio: 450 / 550;
           transition: transform 0.15s ease-out;
         }
-      
 
-        /* Social strip */
         .social-strip {
           position: fixed;
           left: 2rem;
@@ -315,7 +321,6 @@ export default function HeroSection() {
         }
         .social-link:hover { color: var(--brand-accent); }
 
-        /* Scroll cue */
         .scroll-cue {
           position: fixed;
           right: 2rem;
@@ -352,7 +357,6 @@ export default function HeroSection() {
           animation: scrollLine 2s ease-in-out infinite;
         }
 
-        /* Stats row */
         .stats-row {
           position: absolute;
           bottom: 3rem;
@@ -362,9 +366,7 @@ export default function HeroSection() {
           z-index: 2;
           animation: fadeUp 0.9s 0.7s cubic-bezier(0.16,1,0.3,1) both;
         }
-        .stat {
-          text-align: right;
-        }
+        .stat { text-align: right; }
         .stat-num {
           font-size: 1.6rem;
           font-weight: 700;
@@ -379,16 +381,14 @@ export default function HeroSection() {
           margin-top: 0.1rem;
         }
         .portrait-img {
-         width: 100%;
-        max-width: 450px;
-         height: auto;
-
-         border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%;
-         object-fit: cover;
-         box-shadow: 0 20px 60px var(--brand-accent-glow);
+          width: 100%;
+          max-width: 450px;
+          height: auto;
+          border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%;
+          object-fit: cover;
+          box-shadow: 0 20px 60px var(--brand-accent-glow);
         }
 
-        /* Keyframes */
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
@@ -417,29 +417,19 @@ export default function HeroSection() {
           .hero-content { max-width: 100%; }
           .hero-visual { width: min(70vw, 300px); }
           .ghost-name { font-size: 22vw; }
-          .nav-links { display: none; }
-
         }
       `}</style>
 
-      {/* Nav */}
-
-
-      {/* Hero */}
       <section className="hero" ref={heroRef}>
-
-        {/* Ghost background name */}
         <div
           className="ghost-name"
           style={{
             transform: `translate(calc(-50% + ${mousePos.x * 0.4}px), calc(-50% + ${mousePos.y * 0.4}px))`,
           }}
         >
-          Aryan
+          {settings?.name?.split(" ")[0] || "Aryan"}
         </div>
-        {/* <DitherShaderDemo /> */}
 
-        {/* Blob */}
         <div
           className="blob blob-2"
           style={{
@@ -447,16 +437,15 @@ export default function HeroSection() {
           }}
         />
 
-        {/* Main content */}
         <div className="hero-content">
           <div className="status-pill">
             <span className="status-dot" />
-            Available for work
+            {settings?.status || "Available for work"}
           </div>
 
           <h1 className="hero-name">
-            Aryan<br />
-            Pachandi <span className="accent-char">.</span>
+            {settings?.headline?.split(" ")[0] || "Aryan"}<br />
+            {settings?.headline?.split(" ").slice(1).join(" ") || "Pachandi ."}
           </h1>
 
           <p className="hero-role">
@@ -465,7 +454,8 @@ export default function HeroSection() {
           </p>
 
           <p className="hero-bio">
-            I build fast, thoughtful digital experiences — from pixel-perfect interfaces to scalable backend systems. Based in India, working globally.
+            {settings?.bio ||
+              "I build fast, thoughtful digital experiences — from pixel-perfect interfaces to scalable backend systems. Based in India, working globally."}
           </p>
 
           <div className="hero-actions">
@@ -484,7 +474,6 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Portrait — right side */}
         <div className="hero-visual">
           <div
             className="portrait-glow"
@@ -498,60 +487,55 @@ export default function HeroSection() {
               transform: `translate(${mousePos.x * 0.15}px, ${mousePos.y * 0.15}px) rotate(${mousePos.x * 0.04}deg)`,
             }}
           >
-            <CldImage
-              src="IMG_0310-dithered_bbfelu"
-              width={900}
-              height={900}
-              sizes="(max-width: 768px) 70vw, 34vw"
-              alt="Aryan Pachandi"
-             className="portrait-img"
-            />
+            {isCloudinaryPublicId ? (
+              <CldImage
+                src={profileImg}
+                width={900}
+                height={900}
+                sizes="(max-width: 768px) 70vw, 34vw"
+                alt={settings?.name || "Aryan Pachandi"}
+                className="portrait-img"
+              />
+            ) : (
+              <img
+                src={profileImg}
+                alt={settings?.name || "Aryan Pachandi"}
+                className="portrait-img"
+              />
+            )}
           </div>
         </div>
 
-        {/* Stats */}
-      <div className="stats-row">
-  {[
-    { num: "2027", label: "Graduating" },
-    { num: "20+", label: "Projects Built" },
-    { num: "1", label: "Internships" },
-  ].map((s) => (
-    <div className="stat" key={s.label}>
-      <div className="stat-num">{s.num}</div>
-      <div className="stat-label">{s.label}</div>
-    </div>
-  ))}
-</div>  
+        <div className="stats-row">
+          {[
+            { num: settings?.graduationYear || "2027", label: "Graduating" },
+            { num: settings?.projectsBuiltLabel || "20+", label: "Projects Built" },
+            { num: settings?.internshipsLabel || "1", label: "Internships" },
+          ].map((s) => (
+            <div className="stat" key={s.label}>
+              <div className="stat-num">{s.num}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* Social strip */}
-    <div className="social-strip">
-  {[
-    {
-      name: "GitHub",
-      url: "https://github.com/AryanPachandi",
-    },
-    {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/in/aryan-pachandi-bb7b6822a/",
-    },
-    {
-      name: "Twitter",
-      url: "https://x.com/AryanPachandi",
-    },
-  ].map((social) => (
-    <a
-      key={social.name}
-      href={social.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="social-link"
-    >
-      {social.name}
-    </a>
-  ))}
-</div>
-      {/* Scroll cue */}
+      {socials && socials.length > 0 && (
+        <div className="social-strip">
+          {socials.map((social) => (
+            <a
+              key={social.name}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
+              {social.name}
+            </a>
+          ))}
+        </div>
+      )}
+
       <div className="scroll-cue">
         <span className="scroll-cue-text">Scroll</span>
         <div className="scroll-arrow" />

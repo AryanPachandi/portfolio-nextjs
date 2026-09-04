@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                 String   @id @default("default")
+  name               String   @default("Aryan Pachandi")
+  headline           String   @default("Aryan Pachandi .")
+  subheadline        String   @default("Full-Stack Developer & Creative Coder")
+  bio                String   @default("I build fast, thoughtful digital experiences — from pixel-perfect interfaces to scalable backend systems. Based in India, working globally.")
+  status             String   @default("Available for work")
+  aboutHeadline      String   @default("Crafting the invisible details.")
+  aboutBioP1         String   @default("I'm a Full-Stack Developer who enjoys building software that balances performance, scalability, and user experience. I believe great products are created through attention to detail and strong engineering fundamentals.")
+  aboutBioP2         String   @default("Over the past few years, I've worked with Next.js, React, Node.js, Express, PostgreSQL, MongoDB, and Prisma, building everything from backend APIs and CRM systems to full-stack web applications.")
+  aboutBioP3         String   @default("When I'm not coding, you'll usually find me exploring new technologies, improving my understanding of system design, contributing to personal projects, or learning skills that make me a better engineer.")
+  resumeUrl          String   @default("/Resume%20(5).pdf")
+  email              String   @default("givemejob@aryanpachandi.space")
+  phone              String   @default("+91 8468913733")
+  location           String   @default("Pune, India")
+  graduationYear     String   @default("2027")
+  projectsBuiltLabel String   @default("20+")
+  internshipsLabel   String   @default("1")
+  profileImage       String   @default("IMG_0310-dithered_bbfelu")
+  updatedAt          DateTime @updatedAt
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  number       String   @default("01")
+  title        String
+  category     String
+  year         String
+  tags         String   // Comma separated tags: e.g. "Node.js, Express.js, MongoDB, JWT"
+  description  String
+  liveUrl      String?
+  githubUrl    String?
+  gradient     String   @default("linear-gradient(135deg, #4F3FF0 0%, #8B7FF7 100%)")
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(uuid())
+  year         String
+  role         String
+  company      String
+  current      Boolean  @default(false)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Education {
+  id           String   @id @default(uuid())
+  institution  String
+  degree       String
+  field        String?
+  startDate    String
+  endDate      String?
+  description  String?
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Skill {
+  id           String   @id @default(uuid())
+  name         String
+  category     String   // e.g., "Frontend", "Backend", "Database", "Tooling"
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SocialLink {
+  id           String   @id @default(uuid())
+  name         String
+  url          String
+  icon         String?
+  enabled      Boolean  @default(true)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
