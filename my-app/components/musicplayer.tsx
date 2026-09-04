@@ -1,9 +1,15 @@
 "use client";
 
 import { useAudio } from "@/contexts/audio-context";
+import { usePathname } from "next/navigation";
 
 export default function MusicPlayer() {
+  const pathname = usePathname();
   const { playing, toggleAudio } = useAudio();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <>
