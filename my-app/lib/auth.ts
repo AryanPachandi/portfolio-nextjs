@@ -3,7 +3,7 @@ import Google from "next-auth/providers/google";
 import { redirect } from "next/navigation";
 
 function getAdminEmails(): string[] {
-  const envEmails = process.env.ADMIN_EMAILS ?? "";
+  const envEmails = process.env.ADMIN_EMAILS || "pachandiaryan@gmail.com";
   return envEmails
     .split(",")
     .map((e) => e.trim().toLowerCase())
@@ -13,8 +13,8 @@ function getAdminEmails(): string[] {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      clientId: process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {
@@ -40,14 +40,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
   },
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  trustHost: true,
 });
 
 /**
  * Reusable server-side helper to enforce admin authorization.
  * 1. Retrieves current NextAuth session.
  * 2. Checks if user is authenticated and email is in ADMIN_EMAILS.
- * 3. Redirects to /admin/login if not authorized.
+ * 3. Redirects to /admin/login if unauthenticated or unauthorized.
  * 4. Returns valid session when authorized.
  */
 export async function requireAdmin() {
