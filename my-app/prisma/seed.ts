@@ -1,27 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding database...");
 
-  // 1. Initial Admin User
-  const adminEmail = process.env.ADMIN_EMAIL || "aryanpachandi@gmail.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "AdminPass123!";
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
-
-  const admin = await prisma.adminUser.upsert({
-    where: { email: adminEmail },
-    update: { password: passwordHash },
-    create: {
-      email: adminEmail,
-      password: passwordHash,
-    },
-  });
-  console.log(`✓ Admin user created/updated: ${admin.email}`);
-
-  // 2. Site Settings
+  // 1. Site Settings
   await prisma.siteSettings.upsert({
     where: { id: "default" },
     update: {},

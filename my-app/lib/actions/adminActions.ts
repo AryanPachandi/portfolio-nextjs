@@ -1,11 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { verifyAdmin, authenticateAdmin, createSession, destroySession } from "@/lib/auth";
+import { requireAdmin, signOut } from "@/lib/auth";
 import {
-  loginSchema,
   siteSettingsSchema,
   projectSchema,
   experienceSchema,
@@ -29,30 +27,8 @@ function refreshCache() {
 // ----------------------------------------------------
 // 1. AUTHENTICATION ACTIONS
 // ----------------------------------------------------
-export async function loginAction(formData: unknown) {
-  try {
-    const parsed = loginSchema.safeParse(formData);
-    if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0].message };
-    }
-
-    const { email, password } = parsed.data;
-    const admin = await authenticateAdmin(email, password);
-
-    if (!admin) {
-      return { success: false, error: "Invalid email or password" };
-    }
-
-    await createSession(admin.email);
-    return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Login failed" };
-  }
-}
-
 export async function logoutAction() {
-  await destroySession();
-  redirect("/admin/login");
+  await signOut({ redirectTo: "/admin/login" });
 }
 
 // ----------------------------------------------------
@@ -60,7 +36,7 @@ export async function logoutAction() {
 // ----------------------------------------------------
 export async function updateSiteSettingsAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = siteSettingsSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -74,8 +50,9 @@ export async function updateSiteSettingsAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update profile" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update profile" };
   }
 }
 
@@ -84,7 +61,7 @@ export async function updateSiteSettingsAction(data: unknown) {
 // ----------------------------------------------------
 export async function createProjectAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = projectSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -96,17 +73,18 @@ export async function createProjectAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: created };
-  } catch (error: any) {
-    if (error.code === "P2002") {
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    if (err?.code === "P2002") {
       return { success: false, error: "A project with this slug already exists" };
     }
-    return { success: false, error: error?.message || "Failed to create project" };
+    return { success: false, error: err?.message || "Failed to create project" };
   }
 }
 
 export async function updateProjectAction(id: string, data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = projectSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -119,19 +97,21 @@ export async function updateProjectAction(id: string, data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update project" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update project" };
   }
 }
 
 export async function deleteProjectAction(id: string) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     await prisma.project.delete({ where: { id } });
     refreshCache();
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to delete project" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to delete project" };
   }
 }
 
@@ -141,7 +121,7 @@ export async function deleteProjectAction(id: string) {
 // ----------------------------------------------------
 export async function createExperienceAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = experienceSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -153,14 +133,15 @@ export async function createExperienceAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: created };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to create experience" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to create experience" };
   }
 }
 
 export async function updateExperienceAction(id: string, data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = experienceSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -173,19 +154,21 @@ export async function updateExperienceAction(id: string, data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update experience" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update experience" };
   }
 }
 
 export async function deleteExperienceAction(id: string) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     await prisma.experience.delete({ where: { id } });
     refreshCache();
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to delete experience" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to delete experience" };
   }
 }
 
@@ -194,7 +177,7 @@ export async function deleteExperienceAction(id: string) {
 // ----------------------------------------------------
 export async function createEducationAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = educationSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -206,14 +189,15 @@ export async function createEducationAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: created };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to create education entry" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to create education entry" };
   }
 }
 
 export async function updateEducationAction(id: string, data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = educationSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -226,19 +210,21 @@ export async function updateEducationAction(id: string, data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update education entry" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update education entry" };
   }
 }
 
 export async function deleteEducationAction(id: string) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     await prisma.education.delete({ where: { id } });
     refreshCache();
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to delete education entry" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to delete education entry" };
   }
 }
 
@@ -247,7 +233,7 @@ export async function deleteEducationAction(id: string) {
 // ----------------------------------------------------
 export async function createSkillAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = skillSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -259,14 +245,15 @@ export async function createSkillAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: created };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to create skill" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to create skill" };
   }
 }
 
 export async function updateSkillAction(id: string, data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = skillSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -279,19 +266,21 @@ export async function updateSkillAction(id: string, data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update skill" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update skill" };
   }
 }
 
 export async function deleteSkillAction(id: string) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     await prisma.skill.delete({ where: { id } });
     refreshCache();
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to delete skill" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to delete skill" };
   }
 }
 
@@ -300,7 +289,7 @@ export async function deleteSkillAction(id: string) {
 // ----------------------------------------------------
 export async function createSocialLinkAction(data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = socialLinkSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -312,14 +301,15 @@ export async function createSocialLinkAction(data: unknown) {
 
     refreshCache();
     return { success: true, data: created };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to create social link" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to create social link" };
   }
 }
 
 export async function updateSocialLinkAction(id: string, data: unknown) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     const parsed = socialLinkSchema.safeParse(data);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0].message };
@@ -332,18 +322,20 @@ export async function updateSocialLinkAction(id: string, data: unknown) {
 
     refreshCache();
     return { success: true, data: updated };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to update social link" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to update social link" };
   }
 }
 
 export async function deleteSocialLinkAction(id: string) {
   try {
-    await verifyAdmin();
+    await requireAdmin();
     await prisma.socialLink.delete({ where: { id } });
     refreshCache();
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error?.message || "Failed to delete social link" };
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string };
+    return { success: false, error: err?.message || "Failed to delete social link" };
   }
 }

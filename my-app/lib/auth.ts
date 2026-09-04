@@ -1,65 +1,78 @@
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import { redirect } from "next/navigation";
 
-const COOKIE_NAME = "admin_session";
-const SECRET_KEY = new TextEncoder().encode(
-  process.env.AUTH_SECRET || "default_super_secret_key_change_me_in_env_32chars!"
-);
-
-export async function createSession(email: string) {
-  const token = await new SignJWT({ email })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("7d")
-    .sign(SECRET_KEY);
-
-  const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
+function getAdminEmails(): string[] {
+  const envEmails = process.env.ADMIN_EMAILS ?? "";
+  return envEmails
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
 }
 
-export async function getSession() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(COOKIE_NAME)?.value;
-    if (!token) return null;
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
+  ],
+  pages: {
+    signIn: "/admin/login",
+    error: "/admin/login",
+  },
+  callbacks: {
+    async signIn({ user }) {
+      const email = user.email?.trim().toLowerCase();
+      if (!email) {
+        return false;
+      }
+      const adminEmails = getAdminEmails();
+      return adminEmails.includes(email);
+    },
+    async session({ session, token }) {
+      if (session.user && token.email) {
+        session.user.email = token.email;
+      }
+      return session;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.AUTH_SECRET,
+});
 
-    const { payload } = await jwtVerify(token, SECRET_KEY);
-    return payload as { email: string };
-  } catch {
-    return null;
+/**
+ * Reusable server-side helper to enforce admin authorization.
+ * 1. Retrieves current NextAuth session.
+ * 2. Checks if user is authenticated and email is in ADMIN_EMAILS.
+ * 3. Redirects to /admin/login if not authorized.
+ * 4. Returns valid session when authorized.
+ */
+export async function requireAdmin() {
+  const session = await auth();
+  const email = session?.user?.email?.trim().toLowerCase();
+  const adminEmails = getAdminEmails();
+
+  if (!email || !adminEmails.includes(email)) {
+    redirect("/admin/login");
   }
-}
 
-export async function destroySession() {
-  const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
-}
-
-export async function verifyAdmin() {
-  const session = await getSession();
-  if (!session || !session.email) {
-    throw new Error("Unauthorized: Admin authentication required.");
-  }
   return session;
 }
 
-export async function authenticateAdmin(email: string, password: string) {
-  const admin = await prisma.adminUser.findUnique({
-    where: { email: email.toLowerCase().trim() },
-  });
+/**
+ * Reusable server-side helper for API routes (returns null if unauthorized).
+ */
+export async function checkAdminApi() {
+  const session = await auth();
+  const email = session?.user?.email?.trim().toLowerCase();
+  const adminEmails = getAdminEmails();
 
-  if (!admin) return null;
+  if (!email || !adminEmails.includes(email)) {
+    return null;
+  }
 
-  const isValid = await bcrypt.compare(password, admin.password);
-  if (!isValid) return null;
-
-  return admin;
+  return session;
 }

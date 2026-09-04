@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { getSession } from "@/lib/auth";
+import { checkAdminApi } from "@/lib/auth";
 import fs from "fs";
 import path from "path";
 
@@ -10,7 +10,7 @@ cloudinary.config({
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await checkAdminApi();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
