@@ -191,7 +191,7 @@ export default function RootLayout({
     >
       <body>
        
- <Script id="tawk-to-chat" strategy="lazyOnload">
+ {/* <Script id="tawk-to-chat" strategy="lazyOnload">
           {`
             var Tawk_API = Tawk_API || {};
             var Tawk_LoadStart = new Date();
@@ -208,7 +208,7 @@ export default function RootLayout({
               s0.parentNode.insertBefore(s1, s0);
             })();
           `}
-        </Script>
+        </Script> */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
